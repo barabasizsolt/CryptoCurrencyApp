@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="#2B2B2B"
+    tools:context=".fragment.CryptoDetailsInfoFragment">
+
+    <TextView
+        android:id="@+id/crypto_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Rank"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        android:padding="3dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/crypto_supply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:padding="3dp"
+        android:layout_marginStart="10dp"
+        android:text="Supply"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crypto_rank" />
+
+    <TextView
+        android:id="@+id/crypto_circulating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:layout_marginStart="20dp"
+        android:text="circulating"
+        android:textColor="#FFFF"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crypto_supply" />
+
+    <TextView
+        android:id="@+id/crypto_btc_rice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:padding="3dp"
+        android:layout_marginStart="10dp"
+        android:text="BTC Price"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crypto_circulating" />
+
+    <TextView
+        android:id="@+id/crypto_all_time_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:padding="3dp"
+        android:layout_marginStart="10dp"
+        android:text="All time high"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crypto_btc_rice" />
+
+    <TextView
+        android:id="@+id/crypto_all_time_high_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="3dp"
+        android:layout_marginStart="20dp"
+        android:text="date"
+        android:textColor="#FFFF"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crypto_all_time_high" />
+
+    <TextView
+        android:id="@+id/crypto_rank_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/crypto_supply_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="21,000,000"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/crypto_rank_value" />
+
+    <TextView
+        android:id="@+id/crypto_circulating_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18,820,020"
+        android:textColor="#FFFF"
+        android:textSize="13sp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/crypto_supply_value" />
+
+    <TextView
+        android:id="@+id/crypto_btc_rice_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="https://bitcoin.org"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/crypto_circulating_value" />
+
+    <TextView
+        android:id="@+id/crypto_all_time_high_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$64,805.00"
+        android:textColor="#FFFF"
+        android:textSize="15sp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/crypto_btc_rice_value" />
+
+    <TextView
+        android:id="@+id/crypto_all_time_high_date_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apr 14, 2021"
+        android:textColor="#FFFF"
+        android:textSize="13sp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/crypto_all_time_high_value" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
