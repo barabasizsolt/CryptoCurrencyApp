@@ -30,6 +30,7 @@ import com.anychart.anychart.AnyChart.area
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.Constant.YEAR6
+import com.example.cryptoapp.constant.Constant.convertNumberToDollarValue
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Response
@@ -131,7 +132,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
     private fun initUI(cryptoCurrencyDetails: CryptoCurrencyDetails){
         val coin = cryptoCurrencyDetails.data.coin
-        val price = "$" + String.format("%.2f", coin.price.toDouble())
+        val price = convertNumberToDollarValue(coin.price.toDouble())
         val currentTime = getTime(System.currentTimeMillis())
         var currentHour = currentTime.hour.toString()
         var currentMinute = currentTime.minute.toString()
@@ -142,8 +143,8 @@ class CryptoCurrencyDetailsFragment : Fragment() {
             currentMinute = "0$currentMinute"
         }
         val coinValueSymbol = coin.symbol + "/" + "USD" + " - AVG - " + currentHour + ":" + currentMinute
-        val marketCapText = "$" + String.format("%.2f", coin.marketCap.toDouble().div(Constant.BILLION)) + "B"
-        val volumeText = "$" + String.format("%.2f", coin.volume.toDouble().div(Constant.BILLION)) + "B"
+        val marketCapText = convertNumberToDollarValue(coin.marketCap.toDouble())
+        val volumeText = convertNumberToDollarValue(coin.volume.toDouble())
         cryptoLogo.loadSvg(coin.iconUrl)
         cryptoName.text = coin.name
         cryptoSymbol.text = coin.symbol

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.constant.Constant
+import com.example.cryptoapp.constant.Constant.convertNumberToDollarValue
 import com.example.cryptoapp.constant.Constant.loadSvg
 import com.example.cryptoapp.constant.Constant.setPercentage
 import com.example.cryptoapp.interfaces.OnItemClickListener
@@ -31,9 +32,9 @@ class CryptoCurrencyAdapter (private val mList: List<CryptoCurrency>, onItemClic
         val itemsViewModel = mList[position]
 
         holder.currencyLogo.loadSvg(itemsViewModel.iconUrl)
-        val price = "$" + String.format("%.2f", itemsViewModel.price.toDouble())
-        val marketCap = "$" + String.format("%.2f", itemsViewModel.marketCap.toDouble().div(Constant.BILLION)) + "B"
-        val volume = "$" + String.format("%.2f", itemsViewModel.volume.toDouble().div(Constant.BILLION)) + "B"
+        val price = convertNumberToDollarValue(itemsViewModel.price.toDouble())
+        val marketCap = convertNumberToDollarValue(itemsViewModel.marketCap.toDouble())
+        val volume = convertNumberToDollarValue(itemsViewModel.volume.toDouble())
 
         holder.currencyName.text = itemsViewModel.name
         holder.currencySymbol.text = itemsViewModel.symbol
