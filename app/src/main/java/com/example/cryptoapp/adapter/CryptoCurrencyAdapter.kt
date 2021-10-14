@@ -7,13 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.constant.Constant
-import com.example.cryptoapp.constant.Constant.convertNumberToDollarValue
+import com.example.cryptoapp.constant.Constant.setCompactPrice
 import com.example.cryptoapp.constant.Constant.loadSvg
 import com.example.cryptoapp.constant.Constant.setPercentage
+import com.example.cryptoapp.constant.Constant.setPrice
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
+
 
 class CryptoCurrencyAdapter (private val mList: List<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
     : RecyclerView.Adapter<CryptoCurrencyAdapter.ViewHolder>() {
@@ -32,9 +33,9 @@ class CryptoCurrencyAdapter (private val mList: List<CryptoCurrency>, onItemClic
         val itemsViewModel = mList[position]
 
         holder.currencyLogo.loadSvg(itemsViewModel.iconUrl)
-        val price = convertNumberToDollarValue(itemsViewModel.price.toDouble())
-        val marketCap = convertNumberToDollarValue(itemsViewModel.marketCap.toDouble())
-        val volume = convertNumberToDollarValue(itemsViewModel.volume.toDouble())
+        val price = setPrice(itemsViewModel.price.toDouble())
+        val marketCap = setCompactPrice(itemsViewModel.marketCap.toDouble())
+        val volume = setCompactPrice(itemsViewModel.volume.toDouble())
 
         holder.currencyName.text = itemsViewModel.name
         holder.currencySymbol.text = itemsViewModel.symbol
@@ -52,10 +53,10 @@ class CryptoCurrencyAdapter (private val mList: List<CryptoCurrency>, onItemClic
         private val mOnItemClickListener: OnItemClickListener = onItemClickListener
         private val mOnItemLongClickListener: OnItemLongClickListener = onItemLongClickListener
 
-        var currencyLogo: ImageView = itemView.findViewById(R.id.crypto_logo)
-        var currencyName: TextView = itemView.findViewById(R.id.crypto_name)
-        var currencySymbol: TextView = itemView.findViewById(R.id.crypto_symbol)
-        var currencyValue: TextView = itemView.findViewById(R.id.crypto_value)
+        val currencyLogo: ImageView = itemView.findViewById(R.id.crypto_logo)
+        val currencyName: TextView = itemView.findViewById(R.id.crypto_name)
+        val currencySymbol: TextView = itemView.findViewById(R.id.crypto_symbol)
+        val currencyValue: TextView = itemView.findViewById(R.id.crypto_value)
         val percentChange24H: TextView = itemView.findViewById(R.id.percent_change_24h)
         val volume: TextView = itemView.findViewById(R.id.volume)
         val marketCap: TextView = itemView.findViewById(R.id.market_cap)

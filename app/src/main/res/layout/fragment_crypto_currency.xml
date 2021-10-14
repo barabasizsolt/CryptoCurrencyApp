@@ -3,12 +3,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.CryptoCurrencyFragment">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        app:chipSpacingHorizontal="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tags"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Tags"
+            app:chipCornerRadius="3dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_btc_usd"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USD/BTC"
+            app:chipCornerRadius="3dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_by"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price "
+            app:chipCornerRadius="3dp" />
+
+    </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="5"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group"
+        tools:itemCount="9"
+        tools:layout_editor_absoluteX="-40dp"
         tools:listitem="@layout/crypto_element" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.anychart.anychart.*
-import com.anychart.anychart.Set
-import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
-import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.constant.Constant
 import com.example.cryptoapp.constant.Constant.DAY7
@@ -23,14 +20,14 @@ import com.example.cryptoapp.constant.Constant.loadSvg
 import com.example.cryptoapp.constant.Constant.setPercentage
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyDetails
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoHistory
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlin.collections.ArrayList
 import com.anychart.anychart.AnyChart.area
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.Constant.YEAR6
-import com.example.cryptoapp.constant.Constant.convertNumberToDollarValue
+import com.example.cryptoapp.constant.Constant.setCompactPrice
+import com.example.cryptoapp.constant.Constant.setPrice
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Response
@@ -132,7 +129,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
     private fun initUI(cryptoCurrencyDetails: CryptoCurrencyDetails){
         val coin = cryptoCurrencyDetails.data.coin
-        val price = convertNumberToDollarValue(coin.price.toDouble())
+        val price = setPrice(coin.price.toDouble())
         val currentTime = getTime(System.currentTimeMillis())
         var currentHour = currentTime.hour.toString()
         var currentMinute = currentTime.minute.toString()
@@ -143,8 +140,8 @@ class CryptoCurrencyDetailsFragment : Fragment() {
             currentMinute = "0$currentMinute"
         }
         val coinValueSymbol = coin.symbol + "/" + "USD" + " - AVG - " + currentHour + ":" + currentMinute
-        val marketCapText = convertNumberToDollarValue(coin.marketCap.toDouble())
-        val volumeText = convertNumberToDollarValue(coin.volume.toDouble())
+        val marketCapText = setCompactPrice(coin.marketCap.toDouble())
+        val volumeText = setCompactPrice(coin.volume.toDouble())
         cryptoLogo.loadSvg(coin.iconUrl)
         cryptoName.text = coin.name
         cryptoSymbol.text = coin.symbol
@@ -188,6 +185,9 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                 when(tab!!.position){
                     0 -> (activity as MainActivity).replaceFragment(CryptoDetailsInfoFragment(), R.id.crypto_details_fragment_container, withAnimation = false)
                     1 -> {
+                        //TODO:Implement it
+                    }
+                    2 -> {
                         //TODO:Implement it
                     }
                 }
@@ -273,7 +273,6 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         anyChartView.setBackgroundColor("#444444")
 
         areaChart = area()
-        areaChart.setAnimation(true)
 
         val crossHair: Crosshair = areaChart.crosshair
         crossHair.setEnabled(true)
@@ -319,7 +318,6 @@ class CryptoCurrencyDetailsFragment : Fragment() {
             .setStroke("1.5 #fff")
         series.markers.setZIndex(100.0)
         series.fill("#C8C8C8", 5)
-        areaChart.setAnimation(true)
         areaChart.setData(data)
     }
 }

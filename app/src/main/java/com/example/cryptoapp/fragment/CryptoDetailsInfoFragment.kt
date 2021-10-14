@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.cache.Cache
-import com.example.cryptoapp.constant.Constant
-import com.example.cryptoapp.constant.Constant.convertNumberForTextView
-import com.example.cryptoapp.constant.Constant.convertNumberToDollarValue
+import com.example.cryptoapp.constant.Constant.setCompactPrice
 import com.example.cryptoapp.constant.Constant.getTime
+import com.example.cryptoapp.constant.Constant.setPrice
+import com.example.cryptoapp.constant.Constant.setValue
 import com.example.cryptoapp.model.cryptocurrencydetail.CoinDetails
 
 class CryptoDetailsInfoFragment : Fragment() {
@@ -45,10 +45,10 @@ class CryptoDetailsInfoFragment : Fragment() {
 
     private fun initUI(){
         val coin = Cache.getCryptoCurrency()
-        val supplyText = convertNumberForTextView(coin.supply.total.toDouble())
+        val supplyText = setValue(coin.supply.total.toDouble())
         val circulatingText = getCirculatingText(coin)
         val btcPriceText = String.format("%.7f", coin.btcPrice.toDouble()) + " Btc"
-        val allTimeHighText = convertNumberToDollarValue(coin.allTimeHigh.price.toDouble())
+        val allTimeHighText = setPrice(coin.allTimeHigh.price.toDouble())
         val allTimeHighDateText = getAllTimeHighDate(coin.allTimeHigh.timestamp)
 
         rank.text = coin.rank.toString()
@@ -62,7 +62,7 @@ class CryptoDetailsInfoFragment : Fragment() {
     private fun getCirculatingText(coin : CoinDetails) : String{
         var circulatingText = "undefined"
         if(!coin.supply.circulating.isNullOrBlank()){
-            circulatingText = convertNumberToDollarValue(coin.supply.circulating.toDouble())
+            circulatingText = setValue(coin.supply.circulating.toDouble())
         }
         return circulatingText
     }

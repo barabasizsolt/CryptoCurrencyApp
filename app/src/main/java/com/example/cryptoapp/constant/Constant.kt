@@ -9,17 +9,25 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.example.cryptoapp.R
 import com.google.android.material.chip.ChipGroup
+import java.text.NumberFormat
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
-import kotlin.math.round
+import android.icu.util.CurrencyAmount
+import android.icu.text.CompactDecimalFormat.CompactStyle
+import android.icu.text.CompactDecimalFormat
 
 object Constant {
-    const val THOUSAND : Long = 100000L
-    const val MILLION : Long = 1000000L
-    const val BILLION : Long = 1000000000L
-    const val TRILLION : Long = 1000000000000L
+    private const val COUNTRY = "US"
+    private const val LANGUAGE = "en"
+    private val format : CompactDecimalFormat = CompactDecimalFormat.getInstance(Locale.US, CompactStyle.SHORT)
+    private val numberFormat : NumberFormat = NumberFormat.getCurrencyInstance(Locale(LANGUAGE, COUNTRY))
+    private val currency = Currency.getInstance(Locale.US)
+
+    init {
+        format.maximumFractionDigits = 2
+    }
 
     const val COIN_ID : String = "coin_id"
 
@@ -60,32 +68,16 @@ object Constant {
         children.forEach { it.isEnabled = enable }
     }
 
-    fun convertNumberForTextView(number: Double): String {
-        return when(number.toLong()){
-            in 0 until THOUSAND -> {
-                "%.2f".format(number)
-            }
-            in THOUSAND until MILLION -> {
-                val fraction = calculateFraction(number, THOUSAND)
-                fraction + "K"
-            }
-            in MILLION until BILLION -> {
-                val fraction = calculateFraction(number, MILLION)
-                fraction + "M"
-            }
-            else -> {
-                val fraction = calculateFraction(number, BILLION)
-                fraction + "B"
-            }
-        }
+    fun setValue(inputNumber: Double) : String {
+        return format.format(inputNumber)
     }
 
-    fun convertNumberToDollarValue(inputNumber: Double) : String {
-        return "$" + convertNumberForTextView(inputNumber)
+    fun setPrice(inputNumber: Double) : String {
+        return numberFormat.format(inputNumber)
     }
 
-    private fun calculateFraction(number: Double, divisor: Long): String {
-        val truncate = (number * 10L + divisor / 2L) / divisor
-        return "%.2f".format(truncate.toFloat() * 0.10f)
+    fun setCompactPrice(inputNumber: Double) : String {
+        val amount = CurrencyAmount(inputNumber, currency)
+        return format.format(amount)
     }
 }
