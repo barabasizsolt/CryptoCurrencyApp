@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        supportActionBar?.hide()
+
         viewModel = CryptoApiViewModel(CryptoApiRepository())
         viewModel.getAllCryptoCurrencies()
         viewModel.allCryptoCurrenciesResponse.observe(this, mainObserver)

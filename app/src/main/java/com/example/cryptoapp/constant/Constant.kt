@@ -36,6 +36,15 @@ object Constant {
     const val YEAR1 = "1y"
     const val YEAR6 = "5y"
 
+    val sortingTags = arrayOf(
+        "Highest Price",
+        "Lowest Price",
+        "Highest Ranking",
+        "Lowest Ranking",
+        "Highest Market Cap",
+        "Lowest Market Cap"
+    )
+
     fun ImageView.loadSvg(url: String) {
         val imageLoader = ImageLoader.Builder(this.context)
             .componentRegistry { add(SvgDecoder(this@loadSvg.context)) }

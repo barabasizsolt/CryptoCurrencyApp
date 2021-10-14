@@ -2,4 +2,7 @@
     <string name="app_name">CryptoApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="sorting_title">Set Sort Order</string>
 </resources>

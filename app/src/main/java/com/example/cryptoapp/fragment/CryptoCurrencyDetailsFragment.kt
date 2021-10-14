@@ -79,7 +79,6 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
     private val cryptoDetailsObserver  = androidx.lifecycle.Observer<Response<CryptoCurrencyDetails>> { response ->
         if(response.isSuccessful) {
-
             response.body()?.let { cryptoDetails ->
                 Cache.setCryptoCurrency(cryptoDetails.data.coin)
                 initUI(cryptoDetails)
