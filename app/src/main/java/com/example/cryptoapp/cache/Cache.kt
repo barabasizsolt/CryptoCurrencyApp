@@ -4,10 +4,10 @@ import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import com.example.cryptoapp.model.cryptocurrencydetail.CoinDetails
 
 object Cache {
-    private lateinit var cryptoCurrencies : List<CryptoCurrency>
+    private lateinit var cryptoCurrencies : MutableList<CryptoCurrency>
     private lateinit var cryptoCurrency : CoinDetails
 
-    fun setCryptoCurrencies(data : List<CryptoCurrency>) {
+    fun setCryptoCurrencies(data : MutableList<CryptoCurrency>) {
         cryptoCurrencies = data
     }
 

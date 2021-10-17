@@ -1,5 +1,6 @@
 package com.example.cryptoapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 
 
-class CryptoCurrencyAdapter (private var mList: List<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
+class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
     : RecyclerView.Adapter<CryptoCurrencyAdapter.ViewHolder>() {
 
     private val mOnItemClickListener: OnItemClickListener = onItemClickListener
@@ -32,23 +33,26 @@ class CryptoCurrencyAdapter (private var mList: List<CryptoCurrency>, onItemClic
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val itemsViewModel = mList[position]
 
-        holder.currencyLogo.loadSvg(itemsViewModel.iconUrl)
-        val price = setPrice(itemsViewModel.price.toDouble())
-        val marketCap = setCompactPrice(itemsViewModel.marketCap.toDouble())
-        val volume = setCompactPrice(itemsViewModel.volume.toDouble())
+        itemsViewModel.iconUrl?.let { holder.currencyLogo.loadSvg(it) }
+        val price = itemsViewModel.price?.let { setPrice(it.toDouble()) }
+        val marketCap = itemsViewModel.marketCap?.let { setCompactPrice(it.toDouble()) }
+        val volume = itemsViewModel.volume?.let { setCompactPrice(it.toDouble()) }
 
         holder.currencyName.text = itemsViewModel.name
         holder.currencySymbol.text = itemsViewModel.symbol
         holder.currencyValue.text = price
-        setPercentage(itemsViewModel.change.toDouble(), holder.percentChange24H)
+        itemsViewModel.change?.let { setPercentage(it.toDouble(), holder.percentChange24H) }
         holder.volume.text = volume
         holder.marketCap.text = marketCap
     }
 
     override fun getItemCount(): Int = mList.size
 
-    fun setData(data : List<CryptoCurrency>){
-        mList = data
+    @SuppressLint("NotifyDataSetChanged")
+    fun resetData(data: MutableList<CryptoCurrency>) {
+        mList.clear()
+        mList.addAll(data)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)

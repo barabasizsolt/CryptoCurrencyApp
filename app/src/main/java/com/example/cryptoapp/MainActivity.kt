@@ -9,6 +9,7 @@ import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.fragment.CryptoCurrencyFragment
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
+import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     private val mainObserver = androidx.lifecycle.Observer<Response<AllCryptoCurrencies>> { response ->
         if (response.isSuccessful) {
-            Log.d("Currencies", response.body()?.data.toString())
-            response.body()?.data?.let { Cache.setCryptoCurrencies(it.coins) }
+            Log.d("Observed", response.body()?.data.toString())
+            response.body()?.data?.let { Cache.setCryptoCurrencies(it.coins as MutableList<CryptoCurrency>) }
             initBottomNavigation()
             replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
         }

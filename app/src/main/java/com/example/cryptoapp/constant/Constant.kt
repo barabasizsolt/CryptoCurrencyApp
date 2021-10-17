@@ -37,25 +37,29 @@ object Constant {
     const val YEAR6 = "5y"
 
     const val PRICE_FIELD = "price"
-    const val RANK_FIELD = "rank"
+    const val VOLUME_FIELD = "24hVolume"
     const val MARKET_CAP_FIELD = "marketCap"
+    const val ASC = "asc"
+    const val DESC = "desc"
+
+    const val checkedItem = 1
 
     val sortingTags = arrayOf(
         "Highest Price",
         "Lowest Price",
-        "Highest Ranking",
-        "Lowest Ranking",
+        "Highest 24H Volume",
+        "Lowest 24H Volume",
         "Highest Market Cap",
         "Lowest Market Cap"
     )
 
     val sortingParams = arrayOf(
-        Pair(false, PRICE_FIELD),
-        Pair(true, PRICE_FIELD),
-        Pair(false, RANK_FIELD),
-        Pair(true, RANK_FIELD),
-        Pair(false, MARKET_CAP_FIELD),
-        Pair(true, MARKET_CAP_FIELD),
+        Pair(PRICE_FIELD, DESC),
+        Pair(PRICE_FIELD, ASC),
+        Pair(VOLUME_FIELD, DESC),
+        Pair(VOLUME_FIELD, ASC),
+        Pair(MARKET_CAP_FIELD, DESC),
+        Pair(MARKET_CAP_FIELD, ASC),
     )
 
     fun ImageView.loadSvg(url: String) {

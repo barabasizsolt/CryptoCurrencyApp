@@ -12,7 +12,9 @@ import retrofit2.http.Query
 interface CryptoAPI {
     @GET("coins")
     suspend fun getAllCryptoCurrencies(
-        @Header("x-access-token") key : String = "coinrankingd228a6852a6d7ca4c14c25076fdb42f54138843c128f440c"
+        @Header("x-access-token") key : String = "coinrankingd228a6852a6d7ca4c14c25076fdb42f54138843c128f440c",
+        @Query("orderBy") orderBy : String,
+        @Query("orderDirection") orderDirection : String,
     ): Response<AllCryptoCurrencies>
 
     @GET("coin/{uuid}")
