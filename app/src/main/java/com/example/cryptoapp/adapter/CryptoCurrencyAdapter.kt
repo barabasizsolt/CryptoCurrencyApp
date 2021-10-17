@@ -16,7 +16,7 @@ import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 
 
-class CryptoCurrencyAdapter (private val mList: List<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
+class CryptoCurrencyAdapter (private var mList: List<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
     : RecyclerView.Adapter<CryptoCurrencyAdapter.ViewHolder>() {
 
     private val mOnItemClickListener: OnItemClickListener = onItemClickListener
@@ -46,6 +46,10 @@ class CryptoCurrencyAdapter (private val mList: List<CryptoCurrency>, onItemClic
     }
 
     override fun getItemCount(): Int = mList.size
+
+    fun setData(data : List<CryptoCurrency>){
+        mList = data
+    }
 
     class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
         : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener{

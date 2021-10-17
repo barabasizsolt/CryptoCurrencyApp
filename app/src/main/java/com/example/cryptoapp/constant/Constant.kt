@@ -36,6 +36,10 @@ object Constant {
     const val YEAR1 = "1y"
     const val YEAR6 = "5y"
 
+    const val PRICE_FIELD = "price"
+    const val RANK_FIELD = "rank"
+    const val MARKET_CAP_FIELD = "marketCap"
+
     val sortingTags = arrayOf(
         "Highest Price",
         "Lowest Price",
@@ -43,6 +47,15 @@ object Constant {
         "Lowest Ranking",
         "Highest Market Cap",
         "Lowest Market Cap"
+    )
+
+    val sortingParams = arrayOf(
+        Pair(false, PRICE_FIELD),
+        Pair(true, PRICE_FIELD),
+        Pair(false, RANK_FIELD),
+        Pair(true, RANK_FIELD),
+        Pair(false, MARKET_CAP_FIELD),
+        Pair(true, MARKET_CAP_FIELD),
     )
 
     fun ImageView.loadSvg(url: String) {
