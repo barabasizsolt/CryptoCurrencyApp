@@ -41,8 +41,22 @@ object Constant {
     const val MARKET_CAP_FIELD = "marketCap"
     const val ASC = "asc"
     const val DESC = "desc"
+    const val OFFSET = 0
+    const val LIMIT = 50
 
     const val checkedItem = 1
+
+    val filterTags = arrayOf(
+        "defi",
+        "stablecoin",
+        "nft",
+        "dex",
+        "exchange",
+        "staking",
+        "dao",
+        "meme",
+        "privacy"
+    )
 
     val sortingTags = arrayOf(
         "Highest Price",

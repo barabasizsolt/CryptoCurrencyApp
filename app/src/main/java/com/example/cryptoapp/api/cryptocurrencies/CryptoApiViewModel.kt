@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.cryptoapp.constant.Constant.ASC
 import com.example.cryptoapp.constant.Constant.DESC
 import com.example.cryptoapp.constant.Constant.MARKET_CAP_FIELD
+import com.example.cryptoapp.constant.Constant.OFFSET
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyDetails
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
@@ -16,9 +17,9 @@ class CryptoApiViewModel(private val repository: CryptoApiRepository):ViewModel(
     val cryptoCurrencyHistory : MutableLiveData<Response<CryptoCurrencyHistory>> = MutableLiveData()
     val cryptoCurrencyDetails : MutableLiveData<Response<CryptoCurrencyDetails>> = MutableLiveData()
 
-    fun getAllCryptoCurrencies(orderBy : String = MARKET_CAP_FIELD, orderDirection : String = DESC){
+    fun getAllCryptoCurrencies(orderBy : String = MARKET_CAP_FIELD, orderDirection : String = DESC, offset : Int = OFFSET){
         viewModelScope.launch {
-            val response = repository.getAllCryptoCurrencies(orderBy = orderBy, orderDirection = orderDirection)
+            val response = repository.getAllCryptoCurrencies(orderBy = orderBy, orderDirection = orderDirection, offset = offset)
             allCryptoCurrenciesResponse.value = response
         }
     }

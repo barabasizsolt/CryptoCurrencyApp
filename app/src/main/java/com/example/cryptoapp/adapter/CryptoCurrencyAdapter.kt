@@ -1,5 +1,6 @@
 package com.example.cryptoapp.adapter
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,6 @@ import com.example.cryptoapp.constant.Constant.setPrice
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
-
 
 class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
     : RecyclerView.Adapter<CryptoCurrencyAdapter.ViewHolder>() {
@@ -33,26 +33,38 @@ class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onI
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val itemsViewModel = mList[position]
 
-        itemsViewModel.iconUrl?.let { holder.currencyLogo.loadSvg(it) }
-        val price = itemsViewModel.price?.let { setPrice(it.toDouble()) }
-        val marketCap = itemsViewModel.marketCap?.let { setCompactPrice(it.toDouble()) }
-        val volume = itemsViewModel.volume?.let { setCompactPrice(it.toDouble()) }
-
         holder.currencyName.text = itemsViewModel.name
         holder.currencySymbol.text = itemsViewModel.symbol
-        holder.currencyValue.text = price
-        itemsViewModel.change?.let { setPercentage(it.toDouble(), holder.percentChange24H) }
-        holder.volume.text = volume
-        holder.marketCap.text = marketCap
+        if(!itemsViewModel.iconUrl.isNullOrEmpty()){
+            holder.currencyLogo.loadSvg(itemsViewModel.iconUrl)
+        }
+        if(!itemsViewModel.price.isNullOrEmpty()){
+            holder.currencyValue.text = setPrice(itemsViewModel.price.toDouble())
+        }
+        if(!itemsViewModel.change.isNullOrEmpty()){
+            setPercentage(itemsViewModel.change.toDouble(), holder.percentChange24H)
+        }
+        if(!itemsViewModel.volume.isNullOrEmpty()){
+            holder.volume.text = setCompactPrice(itemsViewModel.volume.toDouble())
+        }
+        if(!itemsViewModel.marketCap.isNullOrEmpty()){
+            holder.marketCap.text = setCompactPrice(itemsViewModel.marketCap.toDouble())
+        }
     }
 
     override fun getItemCount(): Int = mList.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun resetData(data: MutableList<CryptoCurrency>) {
+    fun resetData(data : MutableList<CryptoCurrency>) {
         mList.clear()
         mList.addAll(data)
         notifyDataSetChanged()
+    }
+
+    fun addData(data : MutableList<CryptoCurrency>){
+        val insertIndex = mList.size
+        mList.addAll(insertIndex, data)
+        notifyItemRangeInserted(insertIndex, data.size)
     }
 
     class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)

@@ -45,26 +45,21 @@ class CryptoDetailsInfoFragment : Fragment() {
 
     private fun initUI(){
         val coin = Cache.getCryptoCurrency()
-        val supplyText = setValue(coin.supply.total.toDouble())
-        val circulatingText = getCirculatingText(coin)
-        val btcPriceText = String.format("%.7f", coin.btcPrice.toDouble()) + " Btc"
         val allTimeHighText = setPrice(coin.allTimeHigh.price.toDouble())
         val allTimeHighDateText = getAllTimeHighDate(coin.allTimeHigh.timestamp)
 
         rank.text = coin.rank.toString()
-        supply.text = supplyText
-        circulating.text = circulatingText
-        btcPrice.text = btcPriceText
+        if(!coin.supply.total.isNullOrEmpty()){
+            supply.text = setValue(coin.supply.total.toDouble())
+        }
+        if(!coin.supply.circulating.isNullOrBlank()){
+            circulating.text = setValue(coin.supply.circulating.toDouble())
+        }
+        if(!coin.btcPrice.isNullOrBlank()){
+            btcPrice.text = String.format("%.7f", coin.btcPrice.toDouble()) + " Btc"
+        }
         allTimeHigh.text = allTimeHighText
         allTimeHighDate.text = allTimeHighDateText
-    }
-
-    private fun getCirculatingText(coin : CoinDetails) : String{
-        var circulatingText = "undefined"
-        if(!coin.supply.circulating.isNullOrBlank()){
-            circulatingText = setValue(coin.supply.circulating.toDouble())
-        }
-        return circulatingText
     }
 
     private fun getAllTimeHighDate(timeStamp : Long) : String{

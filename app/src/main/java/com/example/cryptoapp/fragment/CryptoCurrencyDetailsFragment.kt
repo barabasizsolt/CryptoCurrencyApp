@@ -128,7 +128,6 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
     private fun initUI(cryptoCurrencyDetails: CryptoCurrencyDetails){
         val coin = cryptoCurrencyDetails.data.coin
-        val price = setPrice(coin.price.toDouble())
         val currentTime = getTime(System.currentTimeMillis())
         var currentHour = currentTime.hour.toString()
         var currentMinute = currentTime.minute.toString()
@@ -139,16 +138,24 @@ class CryptoCurrencyDetailsFragment : Fragment() {
             currentMinute = "0$currentMinute"
         }
         val coinValueSymbol = coin.symbol + "/" + "USD" + " - AVG - " + currentHour + ":" + currentMinute
-        val marketCapText = setCompactPrice(coin.marketCap.toDouble())
-        val volumeText = setCompactPrice(coin.volume.toDouble())
-        cryptoLogo.loadSvg(coin.iconUrl)
+        if(!coin.iconUrl.isNullOrEmpty()){
+            cryptoLogo.loadSvg(coin.iconUrl)
+        }
         cryptoName.text = coin.name
         cryptoSymbol.text = coin.symbol
-        cryptoPrice.text = price
         cryptoValueSymbol.text = coinValueSymbol
-        setPercentage(coin.change.toDouble(), percentageChange24H)
-        volume.text = volumeText
-        marketCap.text = marketCapText
+        if(!coin.price.isNullOrEmpty()){
+            cryptoPrice.text = setPrice(coin.price.toDouble())
+        }
+        if(!coin.change.isNullOrEmpty()) {
+            setPercentage(coin.change.toDouble(), percentageChange24H)
+        }
+        if(!coin.volume.isNullOrEmpty()){
+            volume.text = setCompactPrice(coin.volume.toDouble())
+        }
+        if(!coin.marketCap.isNullOrEmpty()){
+            marketCap.text = setCompactPrice(coin.marketCap.toDouble())
+        }
     }
 
     private fun initializeChipGroup(cryptoCurrencyId : String){
