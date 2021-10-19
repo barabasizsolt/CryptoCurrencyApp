@@ -16,6 +16,7 @@ interface CryptoAPI {
         @Query("orderBy") orderBy : String,
         @Query("orderDirection") orderDirection : String,
         @Query("offset") offset : Int,
+        @Query("tags[]") tags : Set<String>,
     ): Response<AllCryptoCurrencies>
 
     @GET("coin/{uuid}")

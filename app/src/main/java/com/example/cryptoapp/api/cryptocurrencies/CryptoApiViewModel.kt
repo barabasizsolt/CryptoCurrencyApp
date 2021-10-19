@@ -17,9 +17,9 @@ class CryptoApiViewModel(private val repository: CryptoApiRepository):ViewModel(
     val cryptoCurrencyHistory : MutableLiveData<Response<CryptoCurrencyHistory>> = MutableLiveData()
     val cryptoCurrencyDetails : MutableLiveData<Response<CryptoCurrencyDetails>> = MutableLiveData()
 
-    fun getAllCryptoCurrencies(orderBy : String = MARKET_CAP_FIELD, orderDirection : String = DESC, offset : Int = OFFSET){
+    fun getAllCryptoCurrencies(orderBy : String = MARKET_CAP_FIELD, orderDirection : String = DESC, offset : Int = OFFSET, tags : Set<String> = setOf()){
         viewModelScope.launch {
-            val response = repository.getAllCryptoCurrencies(orderBy = orderBy, orderDirection = orderDirection, offset = offset)
+            val response = repository.getAllCryptoCurrencies(orderBy = orderBy, orderDirection = orderDirection, offset = offset, tags = tags)
             allCryptoCurrenciesResponse.value = response
         }
     }

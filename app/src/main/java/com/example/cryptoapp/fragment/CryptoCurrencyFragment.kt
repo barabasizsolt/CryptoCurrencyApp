@@ -15,9 +15,9 @@ import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.Constant
+import com.example.cryptoapp.constant.Constant.CHECKED_ITEM_INDEX
 import com.example.cryptoapp.constant.Constant.LIMIT
 import com.example.cryptoapp.constant.Constant.OFFSET
-import com.example.cryptoapp.constant.Constant.checkedItem
 import com.example.cryptoapp.constant.Constant.filterTags
 import com.example.cryptoapp.constant.Constant.sortingParams
 import com.example.cryptoapp.constant.Constant.sortingTags
@@ -44,8 +44,10 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
     private var pastVisibleItems = 0
     private var visibleItemCount = 0
     private var totalItemCount = 0
-    private var sortingParam : Pair<String, String> = sortingParams[checkedItem]
+    private var checkedItemIndex = CHECKED_ITEM_INDEX
+    private var sortingParam : Pair<String, String> = sortingParams[checkedItemIndex]
     private var currentOffset = OFFSET
+    private val tags : MutableSet<String> = mutableSetOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,20 +118,27 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
     private fun initChipTags(){
         chipTags.setOnClickListener {
             val checkedItems = BooleanArray(filterTags.size){false}
+            tags.forEach { tag ->
+                val index = filterTags.indexOf(tag)
+                checkedItems[index] = true
+            }
 
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(resources.getString(R.string.tags_title))
                 .setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
                 .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
-                    val result = arrayListOf<String>()
+                    tags.clear()
                     for(i in checkedItems.indices){
                         if(checkedItems[i]){
-                            result.add(filterTags[i])
+                            tags.add(filterTags[i])
                         }
                     }
-                    Log.d("checkedItems", result.toString())
+                    Log.d("checkedItems", tags.toString())
+                    currentOffset = OFFSET
+                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags)
                 }
                 .setMultiChoiceItems(filterTags, checkedItems) { _, which, checked ->
+
                     checkedItems[which] = checked
                 }
                 .show()
@@ -138,19 +147,18 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
 
     private fun initChipSortBy(){
         chipSortBy.setOnClickListener {
-            sortingParam = sortingParams[checkedItem]
+            sortingParam = sortingParams[checkedItemIndex]
 
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(resources.getString(R.string.sorting_title))
                 .setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
                 .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
-                    val sortingProperty = sortingParam.first
-                    val isDescending = sortingParam.second
                     currentOffset = OFFSET
-                    viewModel.getAllCryptoCurrencies(sortingProperty, isDescending, OFFSET)
+                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags)
                 }
-                .setSingleChoiceItems(sortingTags, checkedItem) { _, which ->
+                .setSingleChoiceItems(sortingTags, checkedItemIndex) { _, which ->
                     sortingParam = sortingParams[which]
+                    checkedItemIndex = which
                 }
                 .show()
         }

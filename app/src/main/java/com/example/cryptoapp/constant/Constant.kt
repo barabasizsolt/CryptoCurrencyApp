@@ -44,7 +44,7 @@ object Constant {
     const val OFFSET = 0
     const val LIMIT = 50
 
-    const val checkedItem = 1
+    const val CHECKED_ITEM_INDEX = 4
 
     val filterTags = arrayOf(
         "defi",

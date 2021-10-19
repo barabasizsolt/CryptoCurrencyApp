@@ -6,8 +6,8 @@ import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
 import retrofit2.Response
 
 class CryptoApiRepository {
-    suspend fun getAllCryptoCurrencies(orderBy : String, orderDirection : String, offset : Int) : Response<AllCryptoCurrencies> {
-        return CryptoRetrofitInstance.api.getAllCryptoCurrencies(orderBy = orderBy, orderDirection = orderDirection, offset = offset)
+    suspend fun getAllCryptoCurrencies(orderBy : String, orderDirection : String, offset : Int, tags : Set<String>) : Response<AllCryptoCurrencies> {
+        return CryptoRetrofitInstance.api.getAllCryptoCurrencies(orderBy = orderBy, orderDirection = orderDirection, offset = offset, tags = tags)
     }
 
     suspend fun getCryptoCurrencyDetails(uuid : String) : Response<CryptoCurrencyDetails> {
