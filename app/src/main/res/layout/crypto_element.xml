@@ -66,7 +66,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/percent_change_24h"
+            android:id="@+id/percent_change"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
             android:layout_marginEnd="4dp"
@@ -74,7 +74,7 @@
             android:text="undefined"
             android:textColor="#DDDDDD"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/daily_change"
+            app:layout_constraintEnd_toStartOf="@+id/percentage_change_text"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -86,7 +86,7 @@
             android:textColor="#DDDDDD"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/volume_change"
-            app:layout_constraintTop_toBottomOf="@+id/percent_change_24h" />
+            app:layout_constraintTop_toBottomOf="@+id/percent_change" />
 
         <TextView
             android:id="@+id/market_cap"
@@ -100,10 +100,10 @@
             app:layout_constraintTop_toBottomOf="@+id/volume" />
 
         <TextView
-            android:id="@+id/daily_change"
-            android:layout_width="wrap_content"
+            android:id="@+id/percentage_change_text"
+            android:layout_width="28dp"
             android:layout_height="16dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginEnd="-1dp"
             android:layout_marginTop="10dp"
             android:text="24H"
             android:textColor="#DDDDDD"
@@ -123,7 +123,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_change" />
+            app:layout_constraintTop_toBottomOf="@+id/percentage_change_text" />
 
         <TextView
             android:id="@+id/cap"

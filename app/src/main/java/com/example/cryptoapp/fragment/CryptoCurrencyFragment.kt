@@ -15,12 +15,14 @@ import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.Constant
-import com.example.cryptoapp.constant.Constant.CHECKED_ITEM_INDEX
+import com.example.cryptoapp.constant.Constant.CHECKED_SORTING_ITEM_INDEX
+import com.example.cryptoapp.constant.Constant.CHECKED_TIME_PERIOD_ITEM_INDEX
 import com.example.cryptoapp.constant.Constant.LIMIT
 import com.example.cryptoapp.constant.Constant.OFFSET
 import com.example.cryptoapp.constant.Constant.filterTags
 import com.example.cryptoapp.constant.Constant.sortingParams
 import com.example.cryptoapp.constant.Constant.sortingTags
+import com.example.cryptoapp.constant.Constant.timePeriods
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
@@ -29,7 +31,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Response
-
+import java.util.*
 
 class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickListener {
     private lateinit var viewModel: CryptoApiViewModel
@@ -38,14 +40,17 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
     private lateinit var cryptoCurrencyAdapter: CryptoCurrencyAdapter
     private lateinit var chipGroup : ChipGroup
     private lateinit var chipTags : Chip
+    private lateinit var chipTimePeriod : Chip
     private lateinit var chipSortBy : Chip
 
     private var isLoading : Boolean = true
     private var pastVisibleItems = 0
     private var visibleItemCount = 0
     private var totalItemCount = 0
-    private var checkedItemIndex = CHECKED_ITEM_INDEX
-    private var sortingParam : Pair<String, String> = sortingParams[checkedItemIndex]
+    private var checkedSortingItemIndex = CHECKED_SORTING_ITEM_INDEX
+    private var sortingParam : Pair<String, String> = sortingParams[checkedSortingItemIndex]
+    private var checkedTimePeriodItemIndex = CHECKED_TIME_PERIOD_ITEM_INDEX
+    private var timePeriod = timePeriods[checkedTimePeriodItemIndex]
     private var currentOffset = OFFSET
     private val tags : MutableSet<String> = mutableSetOf()
 
@@ -58,6 +63,7 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
         bindUI(view)
         initUI()
         initChipTags()
+        initTimePeriod()
         initChipSortBy()
 
         return view
@@ -85,6 +91,7 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
         recyclerView = view.findViewById(R.id.recyclerview)
         chipGroup = view.findViewById(R.id.chip_group)
         chipTags = view.findViewById(R.id.chip_tags)
+        chipTimePeriod = view.findViewById(R.id.chip_time_period)
         chipSortBy = view.findViewById(R.id.chip_sort_by)
     }
 
@@ -135,7 +142,7 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
                     }
                     Log.d("checkedItems", tags.toString())
                     currentOffset = OFFSET
-                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags)
+                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags, timePeriod)
                 }
                 .setMultiChoiceItems(filterTags, checkedItems) { _, which, checked ->
 
@@ -145,20 +152,39 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
         }
     }
 
+    private fun initTimePeriod(){
+        chipTimePeriod.setOnClickListener {
+            timePeriod = timePeriods[checkedTimePeriodItemIndex]
+
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(resources.getString(R.string.time_period_title))
+                .setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
+                .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
+                    currentOffset = OFFSET
+                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags, timePeriod)
+                }
+                .setSingleChoiceItems(timePeriods, checkedTimePeriodItemIndex) { _, which ->
+                    timePeriod = timePeriods[which]
+                    checkedTimePeriodItemIndex = which
+                }
+                .show()
+        }
+    }
+
     private fun initChipSortBy(){
         chipSortBy.setOnClickListener {
-            sortingParam = sortingParams[checkedItemIndex]
+            sortingParam = sortingParams[checkedSortingItemIndex]
 
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(resources.getString(R.string.sorting_title))
                 .setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
                 .setPositiveButton(resources.getString(R.string.ok)) { _, _ ->
                     currentOffset = OFFSET
-                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags)
+                    viewModel.getAllCryptoCurrencies(sortingParam.first, sortingParam.second, OFFSET, tags, timePeriod)
                 }
-                .setSingleChoiceItems(sortingTags, checkedItemIndex) { _, which ->
+                .setSingleChoiceItems(sortingTags, checkedSortingItemIndex) { _, which ->
                     sortingParam = sortingParams[which]
-                    checkedItemIndex = which
+                    checkedSortingItemIndex = which
                 }
                 .show()
         }
@@ -170,7 +196,7 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
             val currencies = response.body()?.data?.coins as MutableList<CryptoCurrency>
             if(currentOffset == OFFSET) {
                 Cache.setCryptoCurrencies(currencies)
-                cryptoCurrencyAdapter.resetData(currencies)
+                cryptoCurrencyAdapter.resetData(currencies, timePeriod)
             }
             else{
                 Cache.setCryptoCurrencies(Cache.getCryptoCurrencies().plus(currencies) as MutableList<CryptoCurrency>)

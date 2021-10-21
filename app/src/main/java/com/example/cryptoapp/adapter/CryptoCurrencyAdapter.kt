@@ -1,6 +1,5 @@
 package com.example.cryptoapp.adapter
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +12,18 @@ import com.example.cryptoapp.constant.Constant.setCompactPrice
 import com.example.cryptoapp.constant.Constant.loadSvg
 import com.example.cryptoapp.constant.Constant.setPercentage
 import com.example.cryptoapp.constant.Constant.setPrice
+import com.example.cryptoapp.constant.Constant.timePeriods
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
+import java.util.*
 
 class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
     : RecyclerView.Adapter<CryptoCurrencyAdapter.ViewHolder>() {
 
     private val mOnItemClickListener: OnItemClickListener = onItemClickListener
     private val mOnItemLongClickListener: OnItemLongClickListener = onItemLongClickListener
+    private var timePeriod = timePeriods[1]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -33,6 +35,7 @@ class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onI
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val itemsViewModel = mList[position]
 
+        holder.percentageChangeText.text = timePeriod.uppercase(Locale.getDefault())
         holder.currencyName.text = itemsViewModel.name
         holder.currencySymbol.text = itemsViewModel.symbol
         if(!itemsViewModel.iconUrl.isNullOrEmpty()){
@@ -42,7 +45,7 @@ class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onI
             holder.currencyValue.text = setPrice(itemsViewModel.price.toDouble())
         }
         if(!itemsViewModel.change.isNullOrEmpty()){
-            setPercentage(itemsViewModel.change.toDouble(), holder.percentChange24H)
+            setPercentage(itemsViewModel.change.toDouble(), holder.percentChange)
         }
         if(!itemsViewModel.volume.isNullOrEmpty()){
             holder.volume.text = setCompactPrice(itemsViewModel.volume.toDouble())
@@ -55,9 +58,10 @@ class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onI
     override fun getItemCount(): Int = mList.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun resetData(data : MutableList<CryptoCurrency>) {
+    fun resetData(data : MutableList<CryptoCurrency>, timePeriod : String = this.timePeriod) {
         mList.clear()
         mList.addAll(data)
+        this.timePeriod = timePeriod
         notifyDataSetChanged()
     }
 
@@ -77,7 +81,8 @@ class CryptoCurrencyAdapter (private val mList: MutableList<CryptoCurrency>, onI
         val currencyName: TextView = itemView.findViewById(R.id.crypto_name)
         val currencySymbol: TextView = itemView.findViewById(R.id.crypto_symbol)
         val currencyValue: TextView = itemView.findViewById(R.id.crypto_value)
-        val percentChange24H: TextView = itemView.findViewById(R.id.percent_change_24h)
+        val percentageChangeText: TextView = itemView.findViewById(R.id.percentage_change_text)
+        val percentChange: TextView = itemView.findViewById(R.id.percent_change)
         val volume: TextView = itemView.findViewById(R.id.volume)
         val marketCap: TextView = itemView.findViewById(R.id.market_cap)
 

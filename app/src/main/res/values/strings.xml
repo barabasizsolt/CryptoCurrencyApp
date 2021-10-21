@@ -6,4 +6,5 @@
     <string name="ok">OK</string>
     <string name="sorting_title">Set Sort Order</string>
     <string name="tags_title">Set filter tags</string>
+    <string name="time_period_title">Set Time Period</string>
 </resources>

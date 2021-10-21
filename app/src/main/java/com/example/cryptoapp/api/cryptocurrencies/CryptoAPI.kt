@@ -17,6 +17,7 @@ interface CryptoAPI {
         @Query("orderDirection") orderDirection : String,
         @Query("offset") offset : Int,
         @Query("tags[]") tags : Set<String>,
+        @Query("timePeriod") timePeriod : String,
     ): Response<AllCryptoCurrencies>
 
     @GET("coin/{uuid}")

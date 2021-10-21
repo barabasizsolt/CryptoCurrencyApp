@@ -44,7 +44,8 @@ object Constant {
     const val OFFSET = 0
     const val LIMIT = 50
 
-    const val CHECKED_ITEM_INDEX = 4
+    const val CHECKED_SORTING_ITEM_INDEX = 4
+    const val CHECKED_TIME_PERIOD_ITEM_INDEX = 1
 
     val filterTags = arrayOf(
         "defi",
@@ -57,6 +58,8 @@ object Constant {
         "meme",
         "privacy"
     )
+
+    val timePeriods = arrayOf("3h", "24h", "7d", "30d", "3m", "1y", "3y", "5y")
 
     val sortingTags = arrayOf(
         "Highest Price",
