@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="60dp"
     android:layout_margin="5dp"
     android:backgroundTint="#444444"
     app:cardElevation="6dp">
@@ -15,10 +15,10 @@
 
         <ImageView
             android:id="@+id/exchange_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="-15dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,11 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="undefined"
             android:textAlignment="center"
             android:textColor="#DDDDDD"
-            android:textSize="17sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/exchange_logo"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,11 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:text="undefined"
             android:textAlignment="center"
             android:textColor="#DDDDDD"
-            android:textSize="13sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/exchange_logo"
             app:layout_constraintTop_toBottomOf="@+id/exchange_name" />
 
@@ -59,7 +59,7 @@
             android:layout_marginEnd="4dp"
             android:text="undefined"
             android:textColor="#DDDDDD"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/volume_change"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +72,7 @@
             android:layout_marginEnd="16dp"
             android:text="Vol"
             android:textColor="#DDDDDD"
-            android:textSize="20sp"
+            android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

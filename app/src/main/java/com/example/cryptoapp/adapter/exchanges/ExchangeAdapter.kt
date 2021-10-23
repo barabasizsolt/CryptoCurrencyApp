@@ -11,6 +11,7 @@ import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setCompact
 import com.example.cryptoapp.constant.exchanges.ExchangeConstant.loadPng
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
+import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import com.example.cryptoapp.model.exchanges.Exchange
 
 class ExchangeAdapter (private val mList: MutableList<Exchange>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
@@ -44,6 +45,12 @@ class ExchangeAdapter (private val mList: MutableList<Exchange>, onItemClickList
     }
 
     override fun getItemCount(): Int = mList.size
+
+    fun addData(data : MutableList<Exchange>){
+        val insertIndex = mList.size
+        mList.addAll(insertIndex, data)
+        notifyItemRangeInserted(insertIndex, data.size)
+    }
 
     class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)
         : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener{

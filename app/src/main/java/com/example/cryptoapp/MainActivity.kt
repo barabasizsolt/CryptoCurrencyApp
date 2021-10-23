@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Observed", response.body()?.data.toString())
             response.body()?.data?.let { Cache.setCryptoCurrencies(it.coins as MutableList<CryptoCurrency>) }
             initBottomNavigation()
+            initModalNavigationDrawer()
             replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
         }
     }
@@ -63,6 +64,18 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun initModalNavigationDrawer(){
+        topAppBar.setNavigationOnClickListener {
+            drawerLayout.open()
+        }
+
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            menuItem.isChecked = true
+            drawerLayout.close()
+            true
         }
     }
 
