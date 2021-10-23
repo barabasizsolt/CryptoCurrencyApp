@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#444444"
     android:orientation="vertical"
-    tools:context=".fragment.CryptoCurrencyDetailsFragment">
+    tools:context=".fragment.cryptocurrencies.CryptoCurrencyDetailsFragment">
 
     <ImageView
         android:id="@+id/crypto_logo"

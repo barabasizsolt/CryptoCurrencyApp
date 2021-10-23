@@ -1,4 +1,4 @@
-package com.example.cryptoapp.constant
+package com.example.cryptoapp.constant.cryptocurrencies
 
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,7 +18,7 @@ import android.icu.util.CurrencyAmount
 import android.icu.text.CompactDecimalFormat.CompactStyle
 import android.icu.text.CompactDecimalFormat
 
-object Constant {
+object CryptoConstant {
     private const val COUNTRY = "US"
     private const val LANGUAGE = "en"
     private val format : CompactDecimalFormat = CompactDecimalFormat.getInstance(Locale.US, CompactStyle.SHORT)

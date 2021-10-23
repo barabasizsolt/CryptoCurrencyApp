@@ -2,11 +2,10 @@ package com.example.cryptoapp.api.cryptocurrencies
 
 import androidx.lifecycle.*
 import androidx.lifecycle.MutableLiveData
-import com.example.cryptoapp.constant.Constant.ASC
-import com.example.cryptoapp.constant.Constant.DESC
-import com.example.cryptoapp.constant.Constant.MARKET_CAP_FIELD
-import com.example.cryptoapp.constant.Constant.OFFSET
-import com.example.cryptoapp.constant.Constant.timePeriods
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.DESC
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MARKET_CAP_FIELD
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.OFFSET
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.timePeriods
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyDetails
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory

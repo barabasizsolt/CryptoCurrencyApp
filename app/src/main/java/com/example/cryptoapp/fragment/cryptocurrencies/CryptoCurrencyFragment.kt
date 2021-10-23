@@ -1,4 +1,4 @@
-package com.example.cryptoapp.fragment
+package com.example.cryptoapp.fragment.cryptocurrencies
 
 import android.os.Bundle
 import android.util.Log
@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
-import com.example.cryptoapp.adapter.CryptoCurrencyAdapter
+import com.example.cryptoapp.adapter.cryptocurrencies.CryptoCurrencyAdapter
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
-import com.example.cryptoapp.constant.Constant
-import com.example.cryptoapp.constant.Constant.CHECKED_SORTING_ITEM_INDEX
-import com.example.cryptoapp.constant.Constant.CHECKED_TIME_PERIOD_ITEM_INDEX
-import com.example.cryptoapp.constant.Constant.LIMIT
-import com.example.cryptoapp.constant.Constant.OFFSET
-import com.example.cryptoapp.constant.Constant.filterTags
-import com.example.cryptoapp.constant.Constant.sortingParams
-import com.example.cryptoapp.constant.Constant.sortingTags
-import com.example.cryptoapp.constant.Constant.timePeriods
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CHECKED_SORTING_ITEM_INDEX
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CHECKED_TIME_PERIOD_ITEM_INDEX
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.LIMIT
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.OFFSET
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.filterTags
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.sortingParams
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.sortingTags
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.timePeriods
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
@@ -31,7 +31,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Response
-import java.util.*
 
 class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickListener {
     private lateinit var viewModel: CryptoApiViewModel
@@ -78,7 +77,7 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
         val currentCryptoCurrency = Cache.getCryptoCurrencies()[position]
         val fragment = CryptoCurrencyDetailsFragment()
         val bundle = Bundle()
-        bundle.putString(Constant.COIN_ID, currentCryptoCurrency.uuid)
+        bundle.putString(CryptoConstant.COIN_ID, currentCryptoCurrency.uuid)
         fragment.arguments = bundle
         (activity as MainActivity).replaceFragment(fragment, R.id.activity_fragment_container, addToBackStack = true, withAnimation = false)
     }

@@ -1,4 +1,4 @@
-package com.example.cryptoapp.fragment
+package com.example.cryptoapp.fragment.cryptocurrencies
 
 import android.os.Bundle
 import android.util.Log
@@ -11,13 +11,13 @@ import android.widget.TextView
 import com.anychart.anychart.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
-import com.example.cryptoapp.constant.Constant
-import com.example.cryptoapp.constant.Constant.DAY7
-import com.example.cryptoapp.constant.Constant.HOUR24
-import com.example.cryptoapp.constant.Constant.YEAR1
-import com.example.cryptoapp.constant.Constant.getTime
-import com.example.cryptoapp.constant.Constant.loadSvg
-import com.example.cryptoapp.constant.Constant.setPercentage
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.DAY7
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.HOUR24
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.YEAR1
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.getTime
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.loadSvg
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPercentage
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyDetails
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoHistory
 import com.google.android.material.chip.ChipGroup
@@ -25,9 +25,9 @@ import kotlin.collections.ArrayList
 import com.anychart.anychart.AnyChart.area
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.cache.Cache
-import com.example.cryptoapp.constant.Constant.YEAR6
-import com.example.cryptoapp.constant.Constant.setCompactPrice
-import com.example.cryptoapp.constant.Constant.setPrice
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.YEAR6
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setCompactPrice
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Response
@@ -55,7 +55,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_crypto_currency_details, container, false)
 
         bindUI(view)
-        val cryptoCurrencyId = requireArguments().getString(Constant.COIN_ID)!!
+        val cryptoCurrencyId = requireArguments().getString(CryptoConstant.COIN_ID)!!
 
         Log.d("ID", cryptoCurrencyId)
 

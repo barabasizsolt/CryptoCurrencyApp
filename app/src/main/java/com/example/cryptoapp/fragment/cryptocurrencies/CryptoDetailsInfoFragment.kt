@@ -1,4 +1,4 @@
-package com.example.cryptoapp.fragment
+package com.example.cryptoapp.fragment.cryptocurrencies
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.cache.Cache
-import com.example.cryptoapp.constant.Constant.setCompactPrice
-import com.example.cryptoapp.constant.Constant.getTime
-import com.example.cryptoapp.constant.Constant.setPrice
-import com.example.cryptoapp.constant.Constant.setValue
-import com.example.cryptoapp.model.cryptocurrencydetail.CoinDetails
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.getTime
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setValue
 
 class CryptoDetailsInfoFragment : Fragment() {
     private lateinit var rank : TextView

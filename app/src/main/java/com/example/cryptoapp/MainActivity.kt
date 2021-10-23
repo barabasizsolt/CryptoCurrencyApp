@@ -7,7 +7,8 @@ import androidx.fragment.app.Fragment
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
-import com.example.cryptoapp.fragment.CryptoCurrencyFragment
+import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
+import com.example.cryptoapp.fragment.exchanges.ExchangeFragment
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,11 +49,15 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
                     true
                 }
+                R.id.exchanges -> {
+                    replaceFragment(ExchangeFragment(), R.id.activity_fragment_container, withAnimation = false)
+                    true
+                }
                 R.id.favorites -> {
                     //TODO: implement it
                     true
                 }
-                R.id.news -> {
+                R.id.events -> {
                     //TODO: implement it
                     true
                 }

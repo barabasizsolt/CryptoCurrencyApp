@@ -1,4 +1,4 @@
-package com.example.cryptoapp.adapter
+package com.example.cryptoapp.adapter.cryptocurrencies
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.constant.Constant.setCompactPrice
-import com.example.cryptoapp.constant.Constant.loadSvg
-import com.example.cryptoapp.constant.Constant.setPercentage
-import com.example.cryptoapp.constant.Constant.setPrice
-import com.example.cryptoapp.constant.Constant.timePeriods
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setCompactPrice
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.loadSvg
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPercentage
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.timePeriods
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
