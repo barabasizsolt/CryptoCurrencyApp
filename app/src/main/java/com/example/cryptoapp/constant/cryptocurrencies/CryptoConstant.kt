@@ -25,6 +25,11 @@ object CryptoConstant {
     private val numberFormat : NumberFormat = NumberFormat.getCurrencyInstance(Locale(LANGUAGE, COUNTRY))
     private val currency = Currency.getInstance(Locale.US)
 
+    val CALENDAR: Calendar = Calendar.getInstance()
+    const val MAX_HOUR : Int = 24
+    const val MAX_DAY : Int = 7
+    const val MAX_MONTH : Int = 12
+
     init {
         format.maximumFractionDigits = 2
     }
@@ -46,6 +51,9 @@ object CryptoConstant {
 
     const val CHECKED_SORTING_ITEM_INDEX = 4
     const val CHECKED_TIME_PERIOD_ITEM_INDEX = 1
+
+    const val ROTATE_180 = 180f
+    const val ROTATE_360 = 360f
 
     val filterTags = arrayOf(
         "defi",

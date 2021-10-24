@@ -1,13 +1,18 @@
 package com.example.cryptoapp.fragment.cryptocurrencies
 
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import com.example.cryptoapp.R
 import com.example.cryptoapp.cache.Cache
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.ROTATE_180
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.ROTATE_360
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.getTime
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setValue
@@ -19,6 +24,10 @@ class CryptoDetailsInfoFragment : Fragment() {
     private lateinit var btcPrice : TextView
     private lateinit var allTimeHigh : TextView
     private lateinit var allTimeHighDate : TextView
+    private lateinit var description : TextView
+    private lateinit var dropDown : ImageView
+
+    private var isDescriptionVisible : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +48,8 @@ class CryptoDetailsInfoFragment : Fragment() {
         btcPrice = view.findViewById(R.id.crypto_btc_rice_value)
         allTimeHigh = view.findViewById(R.id.crypto_all_time_high_value)
         allTimeHighDate = view.findViewById(R.id.crypto_all_time_high_date_value)
+        description = view.findViewById(R.id.crypto_description_text)
+        dropDown = view.findViewById(R.id.description_drop_down)
     }
 
     private fun initUI(){
@@ -56,8 +67,26 @@ class CryptoDetailsInfoFragment : Fragment() {
         if(!coin.btcPrice.isNullOrBlank()){
             btcPrice.text = String.format("%.7f", coin.btcPrice.toDouble()) + " Btc"
         }
+        if(!coin.description.isNullOrEmpty()){
+            description.text = Html.fromHtml(coin.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
         allTimeHigh.text = allTimeHighText
         allTimeHighDate.text = allTimeHighDateText
+
+        description.visibility = View.GONE
+
+        dropDown.setOnClickListener {
+            if(isDescriptionVisible){
+                it.animate().rotation(ROTATE_360).start()
+                description.visibility = View.GONE
+                isDescriptionVisible = false
+            }
+            else{
+                it.animate().rotation(ROTATE_180).start()
+                description.visibility = View.VISIBLE
+                isDescriptionVisible = true
+            }
+        }
     }
 
     private fun getAllTimeHighDate(timeStamp : Long) : String{

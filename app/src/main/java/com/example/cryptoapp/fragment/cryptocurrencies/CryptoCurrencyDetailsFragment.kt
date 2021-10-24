@@ -25,12 +25,20 @@ import kotlin.collections.ArrayList
 import com.anychart.anychart.AnyChart.area
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.cache.Cache
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CALENDAR
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_DAY
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_HOUR
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_MONTH
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.YEAR6
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setCompactPrice
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
 import com.google.android.material.tabs.TabLayout
 import retrofit2.Response
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.Month
+import java.util.Calendar.*
 
 class CryptoCurrencyDetailsFragment : Fragment() {
     private lateinit var areaChart : Cartesian
@@ -207,11 +215,12 @@ class CryptoCurrencyDetailsFragment : Fragment() {
     private fun createDataForAreaChart(history: MutableList<CryptoHistory>, timeFrame : String) : MutableList<DataEntry>{
         val currencyHistory : MutableList<DataEntry> = ArrayList()
 
-        //TODO : make a fun for day7 and year1 (or simplify the whole thing)
-
         when(timeFrame){
             HOUR24 -> {
                 val groupedHistory = sortedMapOf<Int, MutableList<Double>>()
+                val tmpHistory : MutableList<Pair<Int, Double?>> = mutableListOf()
+
+                val currentHour: Int = CALENDAR.get(HOUR_OF_DAY)
 
                 history.forEach { curr ->
                     val time = getTime(curr.timestamp).hour
@@ -222,15 +231,23 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                 }
 
                 groupedHistory.forEach { elem ->
-                    currencyHistory.add(ValueDataEntry(elem.key.toString() + ":00", elem.value.maxOfOrNull { it }))
+                    tmpHistory.add(Pair(elem.key, elem.value.maxOfOrNull { it }))
+                }
+
+                for(i in (currentHour - 12)..(currentHour + 12)){
+                    val elem = tmpHistory[i.mod(MAX_HOUR)]
+                    currencyHistory.add(ValueDataEntry(elem.first.toString() + ":00", elem.second))
                 }
             }
             DAY7 -> {
-                val groupedHistory = mutableMapOf<String, MutableList<Double>>()
+                val groupedHistory = mutableMapOf<DayOfWeek, MutableList<Double>>()
+                val tmpHistory : MutableList<Pair<DayOfWeek, Double?>> = mutableListOf()
+
+                val currentDay: Int = LocalDate.now().dayOfWeek.value -1
 
                 history.sortWith(compareBy { getTime(it.timestamp).dayOfWeek.ordinal })
                 history.forEach { curr ->
-                    val dayOfWeek = getTime(curr.timestamp).dayOfWeek.name.substring(0, 3)
+                    val dayOfWeek = getTime(curr.timestamp).dayOfWeek
                     if(!groupedHistory.containsKey(dayOfWeek)){
                         groupedHistory[dayOfWeek] = mutableListOf()
                     }
@@ -238,22 +255,37 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                 }
 
                 groupedHistory.forEach { elem ->
-                    currencyHistory.add(ValueDataEntry(elem.key, elem.value.maxOfOrNull { it }))
+                    tmpHistory.add(Pair(elem.key, elem.value.maxOfOrNull { it }))
+                }
+
+                for(i in (currentDay - 3)..(currentDay + 3)){
+                    val elem = tmpHistory[i.mod(MAX_DAY)]
+                    currencyHistory.add(ValueDataEntry(elem.first.name.substring(0, 3), elem.second))
                 }
             }
             YEAR1 -> {
-                val groupedHistory = mutableMapOf<String, MutableList<Double>>()
+                val groupedHistory = mutableMapOf<Month, MutableList<Double>>()
+                val tmpHistory : MutableList<Pair<Month, Double?>> = mutableListOf()
+
+                val currentMonth: Int = CALENDAR.get(MONTH)
 
                 history.sortWith(compareBy { getTime(it.timestamp).month.ordinal })
                 history.forEach { curr ->
-                    val month = getTime(curr.timestamp).month.name.substring(0, 3)
+                    val month = getTime(curr.timestamp).month
                     if(!groupedHistory.containsKey(month)){
                         groupedHistory[month] = mutableListOf()
                     }
                     if(!curr.price.isNullOrBlank()){groupedHistory[month]?.add(curr.price.toDouble())}
                 }
 
-                groupedHistory.forEach { elem -> currencyHistory.add(ValueDataEntry(elem.key, elem.value.maxOfOrNull { it })) }
+                groupedHistory.forEach { elem ->
+                    tmpHistory.add(Pair(elem.key, elem.value.maxOfOrNull { it }))
+                }
+
+                for(i in (currentMonth - 6)..(currentMonth + 6)){
+                    val elem = tmpHistory[i.mod(MAX_MONTH)]
+                    currencyHistory.add(ValueDataEntry(elem.first.name.substring(0, 3), elem.second))
+                }
             }
             YEAR6 -> {
                 val groupedHistory = mutableMapOf<String, MutableList<Double>>()
@@ -276,7 +308,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
     private fun initializeChart(view: View){
         val anyChartView: AnyChartView = view.findViewById(R.id.any_chart_view)
-        anyChartView.setBackgroundColor("#444444")
+        anyChartView.setBackgroundColor("#212121")
 
         areaChart = area()
 
@@ -290,7 +322,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
         areaChart.yScale.setStackMode(ScaleStackMode.VALUE)
         areaChart.yGrid.setEnabled(true)
-        areaChart.background.fill("#444444", 0)
+        areaChart.background.fill("#212121", 0)
 
         areaChart.legend.setEnabled(true)
         areaChart.legend.setFontSize(13.0)
@@ -323,7 +355,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
             .setSize(4.0)
             .setStroke("1.5 #fff")
         series.markers.setZIndex(100.0)
-        series.fill("#C8C8C8", 5)
+        series.fill("#BB86FC", 5)
         areaChart.setData(data)
     }
 }

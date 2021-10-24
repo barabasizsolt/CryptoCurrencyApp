@@ -17,9 +17,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.AppBarLayout.PrimarySurface"
             android:fitsSystemWindows="true">
-
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
@@ -55,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:labelVisibilityMode="labeled"
+                style="@style/Widget.MaterialComponents.BottomNavigationView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:menu="@menu/bottom_navigation_menu" />
         </androidx.constraintlayout.widget.ConstraintLayout>

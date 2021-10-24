@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#212121"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +12,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#444444"
         android:elevation="10dp">
 
         <ImageView
@@ -248,7 +248,7 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/crypto_details_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_layout">
 
