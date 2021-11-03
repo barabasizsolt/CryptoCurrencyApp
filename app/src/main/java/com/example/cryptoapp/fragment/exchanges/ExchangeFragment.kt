@@ -10,19 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.exchanges.ExchangeAdapter
-import com.example.cryptoapp.api.exchanges.ExchangeApiRepository
-import com.example.cryptoapp.api.exchanges.ExchangeApiViewModel
+import com.example.cryptoapp.api.coingekko.CoinGekkoApiRepository
+import com.example.cryptoapp.api.coingekko.CoinGekkoApiViewModel
 import com.example.cryptoapp.cache.Cache
-import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant
-import com.example.cryptoapp.constant.exchanges.ExchangeConstant.PAGE
-import com.example.cryptoapp.constant.exchanges.ExchangeConstant.PER_PAGE
+import com.example.cryptoapp.constant.coingekko.ExchangeConstant.PAGE
+import com.example.cryptoapp.constant.coingekko.ExchangeConstant.PER_PAGE
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
 import com.example.cryptoapp.model.exchanges.Exchange
 import retrofit2.Response
 
 class ExchangeFragment : Fragment(), OnItemClickListener, OnItemLongClickListener {
-    private lateinit var viewModel: ExchangeApiViewModel
+    private lateinit var viewModel: CoinGekkoApiViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var exchangeAdapter: ExchangeAdapter
@@ -51,7 +50,7 @@ class ExchangeFragment : Fragment(), OnItemClickListener, OnItemLongClickListene
 
     private fun bindUI(view: View){
         recyclerView = view.findViewById(R.id.recyclerview)
-        viewModel = ExchangeApiViewModel(ExchangeApiRepository())
+        viewModel = CoinGekkoApiViewModel(CoinGekkoApiRepository())
         viewModel.getAllExchanges()
         viewModel.allExchangeResponse.observe(requireActivity(), exchangesObserver)
     }

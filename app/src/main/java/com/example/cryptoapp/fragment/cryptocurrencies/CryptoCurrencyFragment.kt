@@ -30,6 +30,7 @@ import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 
 class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickListener {
@@ -95,6 +96,9 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
     }
 
     private fun initUI(){
+        (activity as MainActivity).bottomNavigation.visibility = View.VISIBLE
+        (activity as MainActivity).topAppBar.visibility = View.VISIBLE
+
         viewModel = CryptoApiViewModel(CryptoApiRepository())
         viewModel.allCryptoCurrenciesResponse.observe(requireActivity(), currenciesObserver)
         linearLayoutManager = LinearLayoutManager(requireContext())

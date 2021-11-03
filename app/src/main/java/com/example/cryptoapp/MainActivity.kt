@@ -3,12 +3,14 @@ package com.example.cryptoapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
 import com.example.cryptoapp.fragment.exchanges.ExchangeFragment
+import com.example.cryptoapp.fragment.login.LoginFragment
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
+        topAppBar.visibility = View.GONE
+        bottomNavigation.visibility = View.GONE
 
         viewModel = CryptoApiViewModel(CryptoApiRepository())
         viewModel.getAllCryptoCurrencies()
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             response.body()?.data?.let { Cache.setCryptoCurrencies(it.coins as MutableList<CryptoCurrency>) }
             initBottomNavigation()
             initModalNavigationDrawer()
-            replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
+            replaceFragment(LoginFragment(), R.id.activity_fragment_container, withAnimation = false)
         }
     }
 
@@ -77,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.close()
             true
         }
+
     }
 
     fun replaceFragment(fragment: Fragment, containerId: Int, addToBackStack:Boolean = false, withAnimation:Boolean = true){

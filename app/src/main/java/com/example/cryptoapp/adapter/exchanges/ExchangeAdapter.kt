@@ -8,10 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setCompactPrice
-import com.example.cryptoapp.constant.exchanges.ExchangeConstant.loadPng
+import com.example.cryptoapp.constant.coingekko.ExchangeConstant.loadPng
 import com.example.cryptoapp.interfaces.OnItemClickListener
 import com.example.cryptoapp.interfaces.OnItemLongClickListener
-import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import com.example.cryptoapp.model.exchanges.Exchange
 
 class ExchangeAdapter (private val mList: MutableList<Exchange>, onItemClickListener: OnItemClickListener, onItemLongClickListener: OnItemLongClickListener)

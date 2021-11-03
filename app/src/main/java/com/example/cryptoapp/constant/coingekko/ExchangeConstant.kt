@@ -1,4 +1,4 @@
-package com.example.cryptoapp.constant.exchanges
+package com.example.cryptoapp.constant.coingekko
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

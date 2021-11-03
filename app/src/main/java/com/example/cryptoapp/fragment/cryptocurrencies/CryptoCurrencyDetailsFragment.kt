@@ -355,7 +355,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
             .setSize(4.0)
             .setStroke("1.5 #fff")
         series.markers.setZIndex(100.0)
-        series.fill("#BB86FC", 5)
+        series.fill("#64ffda", 5)
         areaChart.setData(data)
     }
 }
