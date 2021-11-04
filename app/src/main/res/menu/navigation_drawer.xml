@@ -16,9 +16,9 @@
             android:icon="@drawable/ic_favorite"
             android:title="Item 2" />
         <item
-            android:id="@+id/item3"
-            android:icon="@drawable/ic_favorite"
-            android:title="Item 3" />
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Log Out" />
     </group>
 
 </menu>

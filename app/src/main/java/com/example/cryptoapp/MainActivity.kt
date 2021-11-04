@@ -15,13 +15,17 @@ import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: CryptoApiViewModel
+    lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mAuth = FirebaseAuth.getInstance()
 
         supportActionBar?.hide()
         topAppBar.visibility = View.GONE
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        //mAuth.signOut()
         viewModel.allCryptoCurrenciesResponse.removeObserver(mainObserver)
     }
 
@@ -43,7 +48,12 @@ class MainActivity : AppCompatActivity() {
             response.body()?.data?.let { Cache.setCryptoCurrencies(it.coins as MutableList<CryptoCurrency>) }
             initBottomNavigation()
             initModalNavigationDrawer()
-            replaceFragment(LoginFragment(), R.id.activity_fragment_container, withAnimation = false)
+
+            if(mAuth.currentUser == null){
+                replaceFragment(LoginFragment(), R.id.activity_fragment_container, withAnimation = false)
+            }else{
+                replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
+            }
         }
     }
 
@@ -78,6 +88,20 @@ class MainActivity : AppCompatActivity() {
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
+            when(menuItem.itemId){
+                R.id.item1 -> {
+                    //TODO: implement it
+                }
+                R.id.item2 -> {
+                    //TODO: implement it
+                }
+                R.id.logout -> {
+                    mAuth.signOut()
+                    topAppBar.visibility = View.GONE
+                    bottomNavigation.visibility = View.GONE
+                    replaceFragment(LoginFragment(), R.id.activity_fragment_container, withAnimation = false)
+                }
+            }
             drawerLayout.close()
             true
         }
