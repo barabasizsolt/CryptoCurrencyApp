@@ -80,7 +80,7 @@ class CryptoCurrencyFragment : Fragment(), OnItemClickListener, OnItemLongClickL
         val bundle = Bundle()
         bundle.putString(CryptoConstant.COIN_ID, currentCryptoCurrency.uuid)
         fragment.arguments = bundle
-        (activity as MainActivity).replaceFragment(fragment, R.id.activity_fragment_container, addToBackStack = true, withAnimation = false)
+        (activity as MainActivity).replaceFragment(fragment, R.id.activity_fragment_container, addToBackStack = true)
     }
 
     override fun onItemLongClick(position: Int) {

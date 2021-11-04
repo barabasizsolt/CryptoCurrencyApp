@@ -64,10 +64,10 @@ class LoginFragment : Fragment() {
                                 "Successfully logged in",
                                 Toast.LENGTH_LONG
                             ).show()
+                            (activity as MainActivity).initModalNavigationDrawer()
                             (activity as MainActivity).replaceFragment(
                                 CryptoCurrencyFragment(),
-                                R.id.activity_fragment_container,
-                                withAnimation = false
+                                R.id.activity_fragment_container
                             )
                         } else {
                             Toast.makeText(
@@ -118,7 +118,7 @@ class LoginFragment : Fragment() {
                 .show()
         }
         signUp.setOnClickListener {
-            (activity as MainActivity).replaceFragment(SignUpFragment(), R.id.activity_fragment_container, withAnimation = false, addToBackStack = true)
+            (activity as MainActivity).replaceFragment(SignUpFragment(), R.id.activity_fragment_container, addToBackStack = true)
         }
     }
 

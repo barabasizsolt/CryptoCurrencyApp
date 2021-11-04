@@ -55,11 +55,11 @@
         <TextView
             android:id="@+id/volume"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:layout_marginEnd="4dp"
             android:text="undefined"
             android:textColor="#DDDDDD"
-            android:textSize="17sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/volume_change"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,12 +67,12 @@
         <TextView
             android:id="@+id/volume_change"
             android:layout_width="wrap_content"
-            android:layout_height="29dp"
+            android:layout_height="19dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="16dp"
             android:text="Vol"
             android:textColor="#DDDDDD"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

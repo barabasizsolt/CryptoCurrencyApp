@@ -57,10 +57,10 @@ class SignUpFragment : Fragment() {
                             for (i in 0 until fm.backStackEntryCount) {
                                 fm.popBackStack()
                             }
+                            (activity as MainActivity).initModalNavigationDrawer()
                             (activity as MainActivity).replaceFragment(
                                 CryptoCurrencyFragment(),
-                                R.id.activity_fragment_container,
-                                withAnimation = false
+                                R.id.activity_fragment_container
                             )
                         } else {
                             Toast.makeText(

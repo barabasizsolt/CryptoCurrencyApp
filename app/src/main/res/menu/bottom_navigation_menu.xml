@@ -13,7 +13,7 @@
         android:id="@+id/favorites"
         android:enabled="true"
         android:icon="@drawable/ic_favourites_star"
-        android:title="Favorites"/>
+        android:title="WatchLists"/>
     <item
         android:id="@+id/events"
         android:enabled="true"

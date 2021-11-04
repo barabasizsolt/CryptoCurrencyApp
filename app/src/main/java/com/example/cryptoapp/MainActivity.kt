@@ -3,8 +3,13 @@ package com.example.cryptoapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
@@ -16,20 +21,35 @@ import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: CryptoApiViewModel
+    private lateinit var navHeader: View
+    private lateinit var userLogo: ImageView
+    private lateinit var userEmail: TextView
     lateinit var mAuth: FirebaseAuth
+    lateinit var firestore: FirebaseFirestore
+    lateinit var favoriteMenuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+        firestore = Firebase.firestore
 
         supportActionBar?.hide()
         topAppBar.visibility = View.GONE
         bottomNavigation.visibility = View.GONE
+        favoriteMenuItem = topAppBar.menu[0]
+        favoriteMenuItem.isVisible = false
+
+        navHeader = navigationView.getHeaderView(0)
+        userLogo = navHeader.findViewById(R.id.user_logo)
+        userEmail = navHeader.findViewById(R.id.user_email)
 
         viewModel = CryptoApiViewModel(CryptoApiRepository())
         viewModel.getAllCryptoCurrencies()
@@ -38,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //mAuth.signOut()
         viewModel.allCryptoCurrenciesResponse.removeObserver(mainObserver)
     }
 
@@ -47,12 +66,12 @@ class MainActivity : AppCompatActivity() {
             Log.d("Observed", response.body()?.data.toString())
             response.body()?.data?.let { Cache.setCryptoCurrencies(it.coins as MutableList<CryptoCurrency>) }
             initBottomNavigation()
-            initModalNavigationDrawer()
 
             if(mAuth.currentUser == null){
-                replaceFragment(LoginFragment(), R.id.activity_fragment_container, withAnimation = false)
+                replaceFragment(LoginFragment(), R.id.activity_fragment_container)
             }else{
-                replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
+                initModalNavigationDrawer()
+                replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container)
             }
         }
     }
@@ -61,11 +80,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener {item ->
             when(item.itemId) {
                 R.id.currencies -> {
-                    replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container, withAnimation = false)
+                    replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container)
                     true
                 }
                 R.id.exchanges -> {
-                    replaceFragment(ExchangeFragment(), R.id.activity_fragment_container, withAnimation = false)
+                    replaceFragment(ExchangeFragment(), R.id.activity_fragment_container)
                     true
                 }
                 R.id.favorites -> {
@@ -81,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initModalNavigationDrawer(){
+    fun initModalNavigationDrawer(){
         topAppBar.setNavigationOnClickListener {
             drawerLayout.open()
         }
@@ -89,32 +108,42 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
             when(menuItem.itemId){
-                R.id.item1 -> {
+                R.id.profile -> {
                     //TODO: implement it
                 }
-                R.id.item2 -> {
+                R.id.wallet -> {
+                    //TODO: implement it
+                }
+                R.id.calculator -> {
                     //TODO: implement it
                 }
                 R.id.logout -> {
                     mAuth.signOut()
                     topAppBar.visibility = View.GONE
                     bottomNavigation.visibility = View.GONE
-                    replaceFragment(LoginFragment(), R.id.activity_fragment_container, withAnimation = false)
+                    replaceFragment(LoginFragment(), R.id.activity_fragment_container)
                 }
             }
             drawerLayout.close()
             true
         }
 
+        if(mAuth.currentUser?.photoUrl != null){
+            Glide.with(this).load(mAuth.currentUser?.photoUrl).circleCrop().into(userLogo)
+        }
+        else{
+            Glide.with(this).load(R.drawable.avatar).circleCrop().into(userLogo)
+        }
+        userEmail.text = mAuth.currentUser?.email.toString()
     }
 
-    fun replaceFragment(fragment: Fragment, containerId: Int, addToBackStack:Boolean = false, withAnimation:Boolean = true){
+    fun replaceFragment(fragment: Fragment, containerId: Int, addToBackStack:Boolean = false, withAnimation:Boolean = false){
         val transaction = supportFragmentManager.beginTransaction()
-//        when(withAnimation){
-//            true -> {
-//                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-//            }
-//        }
+        when(withAnimation){
+            true -> {
+                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            }
+        }
         transaction.replace(containerId, fragment)
         when(addToBackStack){
             true -> {

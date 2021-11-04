@@ -34,6 +34,8 @@ object CryptoConstant {
         format.maximumFractionDigits = 2
     }
 
+    const val CURRENCY_FIRE_STORE_PATH = "currencies"
+
     const val COIN_ID : String = "coin_id"
 
     const val HOUR24 = "24h"

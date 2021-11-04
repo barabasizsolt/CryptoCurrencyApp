@@ -12,7 +12,7 @@
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2760416666666667" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/crypto_element.xml" value="0.72" />
-        <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/exchange_element.xml" value="0.5393364928909953" />
+        <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/exchange_element.xml" value="0.536" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/fragment_crypto_currency.xml" value="0.264" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/fragment_crypto_currency_details.xml" value="0.264" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/fragment_crypto_details_info.xml" value="0.4" />
@@ -23,6 +23,7 @@
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/layout/reset_password_dialog_layout.xml" value="0.264" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.28229166666666666" />
         <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/menu/navigation_drawer.xml" value="0.31875" />
+        <entry key="..\:/Users/b.robert-zsolt/Documents/GitHub/CryptoCurrencyApp/app/src/main/res/menu/top_app_bar.xml" value="0.18819444444444444" />
       </map>
     </option>
   </component>

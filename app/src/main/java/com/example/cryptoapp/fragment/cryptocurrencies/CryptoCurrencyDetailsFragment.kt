@@ -26,6 +26,7 @@ import com.anychart.anychart.AnyChart.area
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CALENDAR
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CURRENCY_FIRE_STORE_PATH
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_DAY
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_HOUR
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_MONTH
@@ -34,6 +35,7 @@ import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setCompact
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
 import com.example.cryptoapp.model.cryptocurrencydetail.CryptoCurrencyHistory
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Response
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -41,7 +43,7 @@ import java.time.Month
 import java.util.Calendar.*
 
 class CryptoCurrencyDetailsFragment : Fragment() {
-    private lateinit var areaChart : Cartesian
+    private lateinit var areaChart: Cartesian
     private lateinit var cryptoLogo: ImageView
     private lateinit var cryptoName: TextView
     private lateinit var cryptoSymbol: TextView
@@ -53,8 +55,12 @@ class CryptoCurrencyDetailsFragment : Fragment() {
     private lateinit var chipGroup: ChipGroup
     private lateinit var tabLayout: TabLayout
     private lateinit var viewModel : CryptoApiViewModel
-
+    private lateinit var cryptoCurrencyId: String
     private var currentTimeFrame = HOUR24
+
+    private var isAddedToFavorite = false
+
+    //TODO: add progressbar to load every data
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,8 +69,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_crypto_currency_details, container, false)
 
         bindUI(view)
-        val cryptoCurrencyId = requireArguments().getString(CryptoConstant.COIN_ID)!!
-
+        cryptoCurrencyId = requireArguments().getString(CryptoConstant.COIN_ID)!!
         Log.d("ID", cryptoCurrencyId)
 
         viewModel.getCryptoCurrencyDetails(cryptoCurrencyId)
@@ -73,10 +78,17 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         viewModel.getCryptoCurrencyHistory(uuid = cryptoCurrencyId, timePeriod = HOUR24)
         viewModel.cryptoCurrencyHistory.observe(requireActivity(), cryptoHistoryObserver)
 
+        initTobBarListener()
         initializeChipGroup(cryptoCurrencyId)
         initializeTabLayout()
 
         return view
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).favoriteMenuItem.isVisible = false
+        (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite)
     }
 
     override fun onDestroyView() {
@@ -86,12 +98,14 @@ class CryptoCurrencyDetailsFragment : Fragment() {
     }
 
     private val cryptoDetailsObserver  = androidx.lifecycle.Observer<Response<CryptoCurrencyDetails>> { response ->
-        if(response.isSuccessful) {
+        if (response.isSuccessful) {
             response.body()?.let { cryptoDetails ->
                 Cache.setCryptoCurrency(cryptoDetails.data.coin)
                 initUI(cryptoDetails)
                 tabLayout.getTabAt(1)!!.select()
                 tabLayout.getTabAt(0)!!.select()
+                isFavourite()
+                (activity as MainActivity).favoriteMenuItem.isVisible = true
             }
         }
     }
@@ -166,6 +180,55 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         }
     }
 
+    //TODO cache it
+    private fun isFavourite(){
+        (activity as MainActivity).firestore.collection(CURRENCY_FIRE_STORE_PATH)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if(document.data["uuid"].toString() == cryptoCurrencyId
+                        && document.data["userid"].toString() == (activity as MainActivity).mAuth.currentUser?.uid){
+                        (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
+                        isAddedToFavorite = true
+                        break
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("doc", "Error getting documents.", exception)
+            }
+    }
+
+    private fun initTobBarListener(){
+        (activity as MainActivity).topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorite -> {
+                    //TODO: check if exist
+                    if(!isAddedToFavorite) {
+                        (activity as MainActivity).firestore.collection(CURRENCY_FIRE_STORE_PATH)
+                            .add(hashMapOf(
+                                "uuid" to cryptoCurrencyId,
+                                "userid" to (activity as MainActivity).mAuth.currentUser?.uid
+                            ))
+                            .addOnSuccessListener { documentReference ->
+                                (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
+                                isAddedToFavorite = true
+                                Log.d(
+                                    "fireStore",
+                                    "DocumentSnapshot added with ID: ${documentReference.id}"
+                                )
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("fireStore", "Error adding document", e)
+                            }
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     private fun initializeChipGroup(cryptoCurrencyId : String){
         chipGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId){
@@ -197,7 +260,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab!!.position){
-                    0 -> (activity as MainActivity).replaceFragment(CryptoDetailsInfoFragment(), R.id.crypto_details_fragment_container, withAnimation = false)
+                    0 -> (activity as MainActivity).replaceFragment(CryptoDetailsInfoFragment(), R.id.crypto_details_fragment_container)
                     1 -> {
                         //TODO:Implement it
                     }
@@ -215,6 +278,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
     private fun createDataForAreaChart(history: MutableList<CryptoHistory>, timeFrame : String) : MutableList<DataEntry>{
         val currencyHistory : MutableList<DataEntry> = ArrayList()
 
+        //TODO:refactor it
         when(timeFrame){
             HOUR24 -> {
                 val groupedHistory = sortedMapOf<Int, MutableList<Double>>()
