@@ -180,23 +180,11 @@ class CryptoCurrencyDetailsFragment : Fragment() {
         }
     }
 
-    //TODO cache it
     private fun isFavourite(){
-        (activity as MainActivity).firestore.collection(CURRENCY_FIRE_STORE_PATH)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    if(document.data["uuid"].toString() == cryptoCurrencyId
-                        && document.data["userid"].toString() == (activity as MainActivity).mAuth.currentUser?.uid){
-                        (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
-                        isAddedToFavorite = true
-                        break
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("doc", "Error getting documents.", exception)
-            }
+        if(Cache.getUserWatchList().contains(cryptoCurrencyId)) {
+            (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
+            isAddedToFavorite = true
+        }
     }
 
     private fun initTobBarListener(){
@@ -213,6 +201,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                             .addOnSuccessListener { documentReference ->
                                 (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
                                 isAddedToFavorite = true
+                                Cache.addUserWatchList(cryptoCurrencyId)
                                 Log.d(
                                     "fireStore",
                                     "DocumentSnapshot added with ID: ${documentReference.id}"
@@ -299,8 +288,11 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                 }
 
                 for(i in (currentHour - 12)..(currentHour + 12)){
-                    val elem = tmpHistory[i.mod(MAX_HOUR)]
-                    currencyHistory.add(ValueDataEntry(elem.first.toString() + ":00", elem.second))
+                    val idx = i.mod(MAX_HOUR)
+                    if(idx < tmpHistory.size){
+                        val elem = tmpHistory[idx]
+                        currencyHistory.add(ValueDataEntry(elem.first.toString() + ":00", elem.second))
+                    }
                 }
             }
             DAY7 -> {
@@ -323,8 +315,11 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                 }
 
                 for(i in (currentDay - 3)..(currentDay + 3)){
-                    val elem = tmpHistory[i.mod(MAX_DAY)]
-                    currencyHistory.add(ValueDataEntry(elem.first.name.substring(0, 3), elem.second))
+                    val idx = i.mod(MAX_HOUR)
+                    if(idx < tmpHistory.size){
+                        val elem = tmpHistory[idx]
+                        currencyHistory.add(ValueDataEntry(elem.first.name.substring(0, 3), elem.second))
+                    }
                 }
             }
             YEAR1 -> {
@@ -347,8 +342,11 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                 }
 
                 for(i in (currentMonth - 6)..(currentMonth + 6)){
-                    val elem = tmpHistory[i.mod(MAX_MONTH)]
-                    currencyHistory.add(ValueDataEntry(elem.first.name.substring(0, 3), elem.second))
+                    val idx = i.mod(MAX_MONTH)
+                    if(idx < tmpHistory.size){
+                        val elem = tmpHistory[idx]
+                        currencyHistory.add(ValueDataEntry(elem.first.name.substring(0, 3), elem.second))
+                    }
                 }
             }
             YEAR6 -> {

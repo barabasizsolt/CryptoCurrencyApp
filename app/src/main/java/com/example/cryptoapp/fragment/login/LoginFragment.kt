@@ -65,6 +65,7 @@ class LoginFragment : Fragment() {
                                 Toast.LENGTH_LONG
                             ).show()
                             (activity as MainActivity).initModalNavigationDrawer()
+                            (activity as MainActivity).getUserWatchLists()
                             (activity as MainActivity).replaceFragment(
                                 CryptoCurrencyFragment(),
                                 R.id.activity_fragment_container

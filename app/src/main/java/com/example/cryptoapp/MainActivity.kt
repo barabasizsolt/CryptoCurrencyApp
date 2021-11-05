@@ -7,15 +7,19 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant
 import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
 import com.example.cryptoapp.fragment.exchanges.ExchangeFragment
 import com.example.cryptoapp.fragment.login.LoginFragment
+import com.example.cryptoapp.fragment.profile.ProfileFragment
 import com.example.cryptoapp.model.allcryptocurrencies.AllCryptoCurrencies
 import com.example.cryptoapp.model.allcryptocurrencies.CryptoCurrency
 import kotlinx.android.synthetic.main.activity_main.*
@@ -71,9 +75,22 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(LoginFragment(), R.id.activity_fragment_container)
             }else{
                 initModalNavigationDrawer()
+                getUserWatchLists()
                 replaceFragment(CryptoCurrencyFragment(), R.id.activity_fragment_container)
             }
         }
+    }
+
+    fun getUserWatchLists(){
+        firestore.collection(CryptoConstant.CURRENCY_FIRE_STORE_PATH)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if(document.data["userid"].toString() == mAuth.currentUser?.uid){
+                        Cache.addUserWatchList(document.data["uuid"].toString())
+                    }
+                }
+            }
     }
 
     private fun initBottomNavigation(){
@@ -109,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             menuItem.isChecked = true
             when(menuItem.itemId){
                 R.id.profile -> {
-                    //TODO: implement it
+                    replaceFragment(ProfileFragment(), R.id.activity_fragment_container)
                 }
                 R.id.wallet -> {
                     //TODO: implement it
@@ -119,6 +136,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.logout -> {
                     mAuth.signOut()
+                    Cache.deleteUserWatchList()
                     topAppBar.visibility = View.GONE
                     bottomNavigation.visibility = View.GONE
                     replaceFragment(LoginFragment(), R.id.activity_fragment_container)
@@ -128,12 +146,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        if(mAuth.currentUser?.photoUrl != null){
-            Glide.with(this).load(mAuth.currentUser?.photoUrl).circleCrop().into(userLogo)
-        }
-        else{
-            Glide.with(this).load(R.drawable.avatar).circleCrop().into(userLogo)
-        }
+        Glide.with(this).load(mAuth.currentUser?.photoUrl).placeholder(R.drawable.ic_avataaars).circleCrop().into(userLogo)
         userEmail.text = mAuth.currentUser?.email.toString()
     }
 

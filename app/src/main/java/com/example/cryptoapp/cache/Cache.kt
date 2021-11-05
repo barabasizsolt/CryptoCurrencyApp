@@ -8,6 +8,7 @@ object Cache {
     private lateinit var cryptoCurrencies : MutableList<CryptoCurrency>
     private lateinit var cryptoCurrency : CoinDetails
     private lateinit var exchanges : MutableList<Exchange>
+    private val userWatchLists: MutableList<String> = mutableListOf()
 
     fun setCryptoCurrencies(data : MutableList<CryptoCurrency>) {
         cryptoCurrencies = data
@@ -26,4 +27,12 @@ object Cache {
     }
 
     fun getExchanges() = exchanges
+
+    fun addUserWatchList(data: String){
+        userWatchLists.add(data)
+    }
+
+    fun getUserWatchList() = userWatchLists
+
+    fun deleteUserWatchList() = userWatchLists.clear()
 }

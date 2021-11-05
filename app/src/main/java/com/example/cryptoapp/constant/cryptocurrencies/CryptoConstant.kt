@@ -117,6 +117,12 @@ object CryptoConstant {
 
     fun getTime(timeStamp : Long): LocalDateTime = Instant.ofEpochSecond(timeStamp).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
+    fun getFormattedTime(timeStamp : Long) : String{
+        val time = getTime(timeStamp)
+        val month = time.month.name.lowercase().replaceFirstChar { it.uppercase() }.substring(0,3)
+        return month + " " + time.dayOfMonth.toString() + ", " + time.year.toString()
+    }
+
     fun ChipGroup.setChildrenEnabled(enable: Boolean) {
         children.forEach { it.isEnabled = enable }
     }

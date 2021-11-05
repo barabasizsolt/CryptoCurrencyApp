@@ -13,7 +13,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.ROTATE_180
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.ROTATE_360
-import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.getTime
+import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.getFormattedTime
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setPrice
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.setValue
 
@@ -55,7 +55,7 @@ class CryptoDetailsInfoFragment : Fragment() {
     private fun initUI(){
         val coin = Cache.getCryptoCurrency()
         val allTimeHighText = setPrice(coin.allTimeHigh.price.toDouble())
-        val allTimeHighDateText = getAllTimeHighDate(coin.allTimeHigh.timestamp)
+        val allTimeHighDateText = getFormattedTime(coin.allTimeHigh.timestamp)
 
         rank.text = coin.rank.toString()
         if(!coin.supply.total.isNullOrEmpty()){
@@ -87,11 +87,5 @@ class CryptoDetailsInfoFragment : Fragment() {
                 isDescriptionVisible = true
             }
         }
-    }
-
-    private fun getAllTimeHighDate(timeStamp : Long) : String{
-        val time = getTime(timeStamp)
-        val month = time.month.name.lowercase().replaceFirstChar { it.uppercase() }.substring(0,3)
-        return month + " " + time.dayOfMonth.toString() + ", " + time.year.toString()
     }
 }
