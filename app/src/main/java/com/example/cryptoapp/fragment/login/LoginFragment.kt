@@ -14,6 +14,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
@@ -66,6 +67,7 @@ class LoginFragment : Fragment() {
                                 "Successfully logged in",
                                 Toast.LENGTH_LONG
                             ).show()
+                            (activity as MainActivity).bottomNavigation.selectedItemId = R.id.currencies
                             (activity as MainActivity).initModalNavigationDrawer()
                             (activity as MainActivity).getUserWatchLists()
                             (activity as MainActivity).replaceFragment(
