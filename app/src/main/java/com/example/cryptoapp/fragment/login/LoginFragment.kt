@@ -1,6 +1,5 @@
 package com.example.cryptoapp.fragment.login
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,8 +12,8 @@ import android.widget.Toast
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
@@ -25,13 +24,14 @@ class LoginFragment : Fragment() {
     private lateinit var password : TextView
     private lateinit var customDialogView: View
     private lateinit var resetEmail: TextView
+    private lateinit var resetEmailLayout: TextInputLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
-        customDialogView = inflater.inflate(R.layout.reset_password_dialog_layout, null, false)
+        customDialogView = inflater.inflate(R.layout.reset_update_dialog_layout, null, false)
 
         bindUI(view)
         initUI()
@@ -46,10 +46,12 @@ class LoginFragment : Fragment() {
         forgotPassword = view.findViewById(R.id.forgot_password)
         email = view.findViewById(R.id.email)
         password = view.findViewById(R.id.password)
-        resetEmail = customDialogView.findViewById(R.id.reset_email)
+        resetEmail = customDialogView.findViewById(R.id.reset_update_field)
+        resetEmailLayout = customDialogView.findViewById(R.id.reset_update_layout)
     }
 
     private fun initUI(){
+        resetEmailLayout.hint = "Email"
         loginButton.setOnClickListener {
             if(validateInput()){
                 progressBar.visibility = View.VISIBLE
@@ -73,7 +75,7 @@ class LoginFragment : Fragment() {
                         } else {
                             Toast.makeText(
                                 requireActivity(),
-                                "Login Failed",
+                                "Incorrect email or password",
                                 Toast.LENGTH_LONG
                             ).show()
                         }

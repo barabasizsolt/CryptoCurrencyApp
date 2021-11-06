@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.anychart.anychart.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
@@ -27,7 +28,6 @@ import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CALENDAR
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.CURRENCY_FIRE_STORE_PATH
-import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_DAY
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_HOUR
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.MAX_MONTH
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant.YEAR6
@@ -88,7 +88,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         (activity as MainActivity).favoriteMenuItem.isVisible = false
-        (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite)
+        (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_watchlist)
     }
 
     override fun onDestroyView() {
@@ -182,7 +182,7 @@ class CryptoCurrencyDetailsFragment : Fragment() {
 
     private fun isFavourite(){
         if(Cache.getUserWatchList().contains(cryptoCurrencyId)) {
-            (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
+            (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_watchlist_gold)
             isAddedToFavorite = true
         }
     }
@@ -198,14 +198,11 @@ class CryptoCurrencyDetailsFragment : Fragment() {
                                 "uuid" to cryptoCurrencyId,
                                 "userid" to (activity as MainActivity).mAuth.currentUser?.uid
                             ))
-                            .addOnSuccessListener { documentReference ->
-                                (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_favorite_red)
+                            .addOnSuccessListener {
+                                (activity as MainActivity).favoriteMenuItem.setIcon(R.drawable.ic_watchlist_gold)
                                 isAddedToFavorite = true
                                 Cache.addUserWatchList(cryptoCurrencyId)
-                                Log.d(
-                                    "fireStore",
-                                    "DocumentSnapshot added with ID: ${documentReference.id}"
-                                )
+                                Toast.makeText(requireContext(),"Added to watchlist", Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener { e ->
                                 Log.w("fireStore", "Error adding document", e)

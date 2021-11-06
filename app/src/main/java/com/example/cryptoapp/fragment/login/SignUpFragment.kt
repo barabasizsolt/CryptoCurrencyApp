@@ -65,7 +65,7 @@ class SignUpFragment : Fragment() {
                         } else {
                             Toast.makeText(
                                 requireContext(),
-                                "Registration Failed",
+                                "Incorrect email or short password\n(Minimum 6 characters)",
                                 Toast.LENGTH_LONG
                             ).show()
                         }

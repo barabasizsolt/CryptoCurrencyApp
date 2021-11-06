@@ -9,4 +9,6 @@
     <string name="time_period_title">Set Time Period</string>
     <string name="reset_password">Reset password</string>
     <string name="reset">Reset</string>
+    <string name="update">Update</string>
+    <string name="update_password">Update Password</string>
 </resources>
