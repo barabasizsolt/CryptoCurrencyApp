@@ -8,7 +8,7 @@ data class Event (
     val description : String?,
     val organizer : String?,
     @SerializedName("start_date")
-    val startDate: String,
+    val startDate: String?,
     @SerializedName("end_date")
     val endDate: String?,
     val website : String?,

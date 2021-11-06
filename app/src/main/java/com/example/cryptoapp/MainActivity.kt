@@ -7,16 +7,15 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiRepository
 import com.example.cryptoapp.api.cryptocurrencies.CryptoApiViewModel
 import com.example.cryptoapp.cache.Cache
 import com.example.cryptoapp.constant.cryptocurrencies.CryptoConstant
 import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
+import com.example.cryptoapp.fragment.events.EventFragment
 import com.example.cryptoapp.fragment.exchanges.ExchangeFragment
 import com.example.cryptoapp.fragment.login.LoginFragment
 import com.example.cryptoapp.fragment.profile.ProfileFragment
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.events -> {
-                    //TODO: implement it
+                    replaceFragment(EventFragment(), R.id.activity_fragment_container)
                     true
                 }
                 else -> false
