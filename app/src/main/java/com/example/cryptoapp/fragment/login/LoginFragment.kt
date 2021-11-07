@@ -23,6 +23,8 @@ class LoginFragment : Fragment() {
     private lateinit var forgotPassword : TextView
     private lateinit var email : TextView
     private lateinit var password : TextView
+    private lateinit var emailLayout : TextInputLayout
+    private lateinit var passwordLayout : TextInputLayout
     private lateinit var customDialogView: View
     private lateinit var resetEmail: TextView
     private lateinit var resetEmailLayout: TextInputLayout
@@ -47,6 +49,8 @@ class LoginFragment : Fragment() {
         forgotPassword = view.findViewById(R.id.forgot_password)
         email = view.findViewById(R.id.email)
         password = view.findViewById(R.id.password)
+        emailLayout = view.findViewById(R.id.email_layout)
+        passwordLayout = view.findViewById(R.id.password_layout)
         resetEmail = customDialogView.findViewById(R.id.reset_update_field)
         resetEmailLayout = customDialogView.findViewById(R.id.reset_update_layout)
     }
@@ -101,19 +105,9 @@ class LoginFragment : Fragment() {
                         (activity as MainActivity).mAuth.sendPasswordResetEmail(resetEmail.text.toString())
                             .addOnCompleteListener(requireActivity()) { task ->
                                 if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Reset link sent to your email",
-                                        Toast.LENGTH_LONG
-                                    )
-                                        .show()
+                                    Toast.makeText(requireContext(), "Reset link sent to your email", Toast.LENGTH_LONG).show()
                                 } else {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Unable to send reset mail",
-                                        Toast.LENGTH_LONG
-                                    )
-                                        .show()
+                                    Toast.makeText(requireContext(), "Unable to send reset mail", Toast.LENGTH_LONG).show()
                                 }
 
                                 progressBar.visibility = View.INVISIBLE
@@ -128,21 +122,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateInput(): Boolean {
+        emailLayout.error = null
+        passwordLayout.error = null
+
         when{
             email.text.toString().isEmpty() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Missing email address",
-                    Toast.LENGTH_SHORT
-                ).show()
+                emailLayout.error = getString(R.string.error)
                 return false
             }
             password.text.toString().isEmpty() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Missing password",
-                    Toast.LENGTH_SHORT
-                ).show()
+                passwordLayout.error = getString(R.string.error)
                 return false
             }
         }
@@ -152,11 +141,6 @@ class LoginFragment : Fragment() {
     private fun validateResetEmail(): Boolean{
         when{
             resetEmail.text.toString().isEmpty() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Missing email address",
-                    Toast.LENGTH_SHORT
-                ).show()
                 return false
             }
         }

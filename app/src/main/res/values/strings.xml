@@ -11,4 +11,6 @@
     <string name="reset">Reset</string>
     <string name="update">Update</string>
     <string name="update_password">Update Password</string>
+    <string name="error">Field is required</string>
+    <string name="password_error">Passwords doesn\'t match</string>
 </resources>

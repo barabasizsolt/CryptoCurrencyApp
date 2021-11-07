@@ -12,7 +12,7 @@ import android.widget.Toast
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.fragment.cryptocurrencies.CryptoCurrencyFragment
-import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.textfield.TextInputLayout
 
 class SignUpFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
@@ -20,6 +20,9 @@ class SignUpFragment : Fragment() {
     private lateinit var email : TextView
     private lateinit var password : TextView
     private lateinit var confirmPassword : TextView
+    private lateinit var emailLayout : TextInputLayout
+    private lateinit var passwordLayout : TextInputLayout
+    private lateinit var confirmPasswordLayout : TextInputLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,9 @@ class SignUpFragment : Fragment() {
         email = view.findViewById(R.id.email)
         password = view.findViewById(R.id.password)
         confirmPassword = view.findViewById(R.id.confirm_password)
+        emailLayout = view.findViewById(R.id.email_layout)
+        passwordLayout = view.findViewById(R.id.password_layout)
+        confirmPasswordLayout = view.findViewById(R.id.confirm_password_layout)
     }
 
     private fun initUI(){
@@ -77,29 +83,21 @@ class SignUpFragment : Fragment() {
     }
 
     private fun validateInput(): Boolean {
+        emailLayout.error = null
+        passwordLayout.error = null
+        confirmPasswordLayout.error = null
+
         when{
             email.text.toString().isEmpty() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Missing email address",
-                    Toast.LENGTH_SHORT
-                ).show()
+                emailLayout.error = getString(R.string.error)
                 return false
             }
             password.text.toString().isEmpty() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Missing password",
-                    Toast.LENGTH_SHORT
-                ).show()
+                passwordLayout.error = getString(R.string.error)
                 return false
             }
             password.text.toString() != confirmPassword.text.toString() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Two password doesn't match",
-                    Toast.LENGTH_SHORT
-                ).show()
+                confirmPasswordLayout.error = getString(R.string.password_error)
                 return false
             }
         }

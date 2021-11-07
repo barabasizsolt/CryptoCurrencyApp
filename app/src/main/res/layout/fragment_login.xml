@@ -9,12 +9,14 @@
     tools:context=".fragment.login.LoginFragment">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
         android:layout_marginTop="200dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        app:errorEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -26,10 +28,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:layout_marginTop="20dp"
+        app:errorEnabled="true"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         app:endIconMode="password_toggle"

@@ -64,26 +64,16 @@ class ProfileFragment : Fragment() {
                 .setView(customDialogView)
                 .setTitle(R.string.update_password)
                 .setNeutralButton(resources.getString(R.string.cancel)) { _, _ -> }
-                .setPositiveButton(resources.getString(R.string.update)) { _, _ ->
+                .setPositiveButton(resources.getString(R.string.update)) { dialog, _ ->
                     if(validateNewPassword()) {
                         progressBar.visibility = View.VISIBLE
 
                         user?.updatePassword(newPassword.text.toString())
                             ?.addOnCompleteListener(requireActivity()) { task ->
                                 if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Password changes successfully",
-                                        Toast.LENGTH_LONG
-                                    )
-                                        .show()
+                                    Toast.makeText(requireContext(), "Password changes successfully", Toast.LENGTH_LONG).show()
                                 } else {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Short password\n(Minimum 6 characters)",
-                                        Toast.LENGTH_LONG
-                                    )
-                                        .show()
+                                    Toast.makeText(requireContext(), "Short password\n(Minimum 6 characters)", Toast.LENGTH_LONG).show()
                                 }
 
                                 progressBar.visibility = View.INVISIBLE
@@ -95,13 +85,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun validateNewPassword(): Boolean{
+        newPasswordLayout.error = null
+
         when{
             newPassword.text.toString().isEmpty() -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Missing new password",
-                    Toast.LENGTH_SHORT
-                ).show()
+                newPasswordLayout.error = getString(R.string.error)
                 return false
             }
         }
