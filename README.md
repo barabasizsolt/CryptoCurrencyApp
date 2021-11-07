@@ -25,19 +25,19 @@ The application is built around two APIs.
 * **[CoinRanking v2 API](https://developers.coinranking.com/api/documentation)**
 
 The applications gives possibility to track, analyze and save the latest cryptocurrencies.
-After signing in, the user is able to monitorize every single cryptocurrency, by clicking one of them.
+After signing in, the user is able to monitorize every single cryptocurrency.
 Selecting the preferred cryptocurrency, the user gets a detailed information about the currency
   * Price history divided into four part (1 day, 7 day, 1 year, 6 year)
   * Current price in USD
   * Current market cap, 24h volume change and current volume
   * Coin rank, all time high and a sort description
 
-On the other side, the application offers possibility to analize crypto exchanges and
-track the latest crypto events
+On the other side, the application offers possibility to analyze crypto's exchanges and
+follow the latest crypto events
   
 ## Future updates
 
-  * Implement a cyptocurrency converter to efficiently convert currency values
+  * Implement a cyptocurrency converter to efficiently convert between currency values
   * User's portofolio & wallet
   * Price reminder for cryptocurrencies
   * Option to change between dark and light theme (currently dark is implemented)
