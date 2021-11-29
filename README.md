@@ -1,6 +1,6 @@
 # Android CryptoCurrency Application
 
-The purpose of this application is to monitorize and visually represent cryptocurreny changes.
+The purpose of this application is to monitorize and visually represent cryptocurrency changes.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ The purpose of this application is to monitorize and visually represent cryptocu
 
 ## Note
 
-    Currently the application is in develop stage and it's tested only on Pixel 2 XL Emulator with API 29.
+    Currently the application is in develop stage and it is tested only on Pixel 2 XL Emulator with API 29.
     In case of any other AVD's or Smartphones the application (maybe) won't work properly.
  
 ## Installation
@@ -37,7 +37,7 @@ follow the latest crypto events
   
 ## Future updates
 
-  * Implement a cyptocurrency converter to efficiently convert between currency values
+  * Implement a cryptocurrency converter to efficiently convert between currency values
   * User's portofolio & wallet
   * Price reminder for cryptocurrencies
   * Option to change between dark and light theme (currently dark is implemented)
